@@ -13,5 +13,5 @@ import InterfaceRMI.model.Account;
  * @author Do_Do
  */
 public interface ReadingInterface extends Remote {
-    Account Login()throws RemoteException;
+    int tinhTong(int a, int b) throws RemoteException;
 }
