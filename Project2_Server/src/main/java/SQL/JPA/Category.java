@@ -20,7 +20,7 @@ import javax.persistence.Table;
  *
  * @author Do_Do
  */
-@Entity
+@Entity(name="Category")
 @Table(name = "category", catalog = "readbook", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),

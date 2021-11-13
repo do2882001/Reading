@@ -27,7 +27,11 @@ public class TestClient {
             int tong = tinhTong.tinhTong(344, 444);
             System.out.println("ket qua: " + tong);
             
-            tinhTong.login("do28082001", "12345678");
+            if (tinhTong.login("do28082001", "12345678")==true) {
+                System.out.println("Hello");
+                
+            }
+tinhTong.login("do28082001", "12345678");
         } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(TestClient.class.getName()).log(Level.SEVERE, null, ex);
         }

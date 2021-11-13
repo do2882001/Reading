@@ -97,7 +97,8 @@ public class UserJpaController implements Serializable {
 
         EntityManager em = getEntityManager();
 //        Query query = em.createNamedQuery("User.login");
-        Query query = em.createNamedQuery("User.findAll");
+        
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName and u.passWord = :passWord");
         System.out.println(query+"Alo123456");
         query.setParameter("userName", username);
         query.setParameter("passWord", pass);

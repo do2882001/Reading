@@ -28,7 +28,7 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
     EntityManagerFactory emf;
 
     API_Controller() throws RemoteException {
-        emf = Persistence.createEntityManagerFactory("com.mycompany_Project2_Server_jar_1.0PU");
+        emf = Persistence.createEntityManagerFactory("ReadingJPA");
     }
 
     @Override

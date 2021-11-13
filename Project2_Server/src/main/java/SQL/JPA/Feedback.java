@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
  *
  * @author Do_Do
  */
-@Entity
+@Entity(name="Feedback")
 @Table(name = "feedback", catalog = "readbook", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f"),

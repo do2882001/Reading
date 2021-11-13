@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
  *
  * @author Do_Do
  */
-@Entity
+@Entity(name="User")
 @Table(name = "user", catalog = "readbook", schema = "")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
