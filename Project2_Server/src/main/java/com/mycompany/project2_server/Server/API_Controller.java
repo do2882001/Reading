@@ -6,7 +6,8 @@
 package com.mycompany.project2_server.Server;
 
 import Admin.InterfaceAdmin.TinhTong;
-import User.Model.BookDTO;
+import com.mycompany.project2_connector.Model.DTO.BookDTO;
+
 import com.mycompany.project2_server.SQL.BookJpaController;
 import com.mycompany.project2_server.SQL.JPA.Book;
 import com.mycompany.project2_server.SQL.UserJpaController;
