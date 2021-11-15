@@ -5,7 +5,7 @@
  */
 package Server;
 
-import Model.DTO.BookDTO;
+import Model.DTO.*;
 
 import SQL.BookJpaController;
 import SQL.JPA.Book;
@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import Admin.InterfaceAdmin.IReading;
+import Model.DTO.UserDTO;
 
 /**
  *
@@ -38,17 +39,13 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
     }
 
     public boolean login(String username, String pass) throws RemoteException {
-
         UserJpaController ujc = new UserJpaController(emf);
         System.out.println("dang login");
         return ujc.login(username, pass);
-        //gọi JPA
-
     }
 
     public BookDTO addNewbook(BookDTO dTO) throws RemoteException// add thanh cong tra ve bookdto, that bai tra ve null
     {
-
         BookJpaController bjc = new BookJpaController(emf);
         Book book = MappingDTOtoEntity.bookDTOtoEntity(dTO);
         Book b = bjc.create(book);
@@ -80,13 +77,20 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
             em.persist(object);
             em.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
             em.getTransaction().rollback();
         } finally {
             em.close();
         }
     }
 
-    
-
+    @Override
+    public boolean signup(UserDTO userDTO) throws RemoteException {
+        UserJpaController ujc = new UserJpaController(emf);
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(userDTO);// persirt == insert into , merge = update , remove == delete
+        em.getTransaction().commit();
+        em.close();
+        return false;
+    }
 }

@@ -6,9 +6,11 @@
 package Admin.InterfaceAdmin;
 
 
+import Model.DTO.UserDTO;
 import Model.DTO.BookDTO;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.Date;
 
 /**
  *
@@ -19,6 +21,7 @@ public interface IReading extends Remote {
     int tinhTong(int a, int b) throws RemoteException;
 
     boolean login(String username, String pass) throws RemoteException;
-
+    
+    boolean signup(UserDTO userDTO)throws RemoteException;
     BookDTO addNewbook(BookDTO dTO) throws RemoteException;// add thanh cong tra ve bookdto, that bai tra ve null
 }

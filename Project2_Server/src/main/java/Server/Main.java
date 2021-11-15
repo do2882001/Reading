@@ -19,14 +19,11 @@ import java.util.logging.Logger;
 public class Main {
     public static void main(String[] args)  {
         try {
-            API_Controller tinhToan = new API_Controller();
+            API_Controller reading = new API_Controller();
             LocateRegistry.createRegistry(7898);
-            Naming.rebind("rmi://localhost:7898/tinhtong", tinhToan);
+            Naming.rebind("rmi://localhost:7898/reading", reading);
             System.out.println("da chay rmi tinh toan");
-
-        } catch (RemoteException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
+        } catch (RemoteException | MalformedURLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

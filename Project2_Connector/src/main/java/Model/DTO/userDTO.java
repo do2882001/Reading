@@ -5,10 +5,9 @@
  */
 package Model.DTO;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-class UserDTO {
+public class UserDTO {
     private int Id;
     private String Username;
     private String Password;
@@ -45,7 +44,11 @@ class UserDTO {
 //    public void setFeedbackList(ArrayList<FeedbackDTO> FeedbackList) {
 //        this.FeedbackList = FeedbackList;
 //    }
-    
+
+    public int getId() {
+        return Id;
+    }
+
     public String getUsername() {
         return Username;
     }
@@ -81,6 +84,44 @@ class UserDTO {
     public RoleDTO getRole() {
         return role;
     }
-    
-    
+
+    public void setId(int Id) {
+        this.Id = Id;
+    }
+
+    public void setUsername(String Username) {
+        this.Username = Username;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public void setPhoneNumber(String PhoneNumber) {
+        this.PhoneNumber = PhoneNumber;
+    }
+
+    public void setBirthdate(Date Birthdate) {
+        this.Birthdate = Birthdate;
+    }
+
+    public void setGender(String Gender) {
+        this.Gender = Gender;
+    }
+
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
+
+    public void setAvatarUrl(String AvatarUrl) {
+        this.AvatarUrl = AvatarUrl;
+    }
+
+    public void setRole(RoleDTO role) {
+        this.role = role;
+    }
 }

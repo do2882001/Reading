@@ -1,17 +1,36 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package View;
 
+import Admin.InterfaceAdmin.IReading;
+import Model.DTO.UserDTO;
+import com.github.lgooddatepicker.components.CalendarPanel;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author phong
+ * @author Do_Do
  */
 public class SignUpForm extends javax.swing.JFrame {
 
     /**
-     * Creates new form SignUpForm
+     * Creates new form SignUp
      */
     public SignUpForm() {
         initComponents();
@@ -27,38 +46,32 @@ public class SignUpForm extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
-        javax.swing.JPanel jPanel2 = new javax.swing.JPanel();
-        javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
-        javax.swing.JTextField Name = new javax.swing.JTextField();
-        javax.swing.JLabel jLabel7 = new javax.swing.JLabel();
-        javax.swing.JRadioButton jRadioButtonMale = new javax.swing.JRadioButton();
-        javax.swing.JRadioButton jRadioButtonFemale = new javax.swing.JRadioButton();
-        javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
-        javax.swing.JTextField BirthDate = new javax.swing.JTextField();
-        javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
-        javax.swing.JTextField Address = new javax.swing.JTextField();
-        javax.swing.JLabel jLabel5 = new javax.swing.JLabel();
-        javax.swing.JTextField PhoneNumber = new javax.swing.JTextField();
-        javax.swing.JLabel jLabel9 = new javax.swing.JLabel();
-        javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
-        javax.swing.JTextArea jTextArea1 = new javax.swing.JTextArea();
-        javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel10 = new javax.swing.JLabel();
-        javax.swing.JTextField jTextField1 = new javax.swing.JTextField();
-        javax.swing.JTextField jTextField2 = new javax.swing.JTextField();
-        javax.swing.JTextField jTextField3 = new javax.swing.JTextField();
-        javax.swing.JButton jButton1 = new javax.swing.JButton();
-        javax.swing.JButton jButton2 = new javax.swing.JButton();
-        javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
-        javax.swing.JLabel jLabel12 = new javax.swing.JLabel();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        txtFulName = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        rdoMale = new javax.swing.JRadioButton();
+        rdoFeMale = new javax.swing.JRadioButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtAddress = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtPhoneNumber = new javax.swing.JTextField();
+        dateBirth = new com.github.lgooddatepicker.components.DatePicker();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
+        txtPassWord = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBackground(new java.awt.Color(120, 201, 169));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -74,14 +87,6 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(24, 377, 19, 356);
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        getContentPane().add(jPanel1, gridBagConstraints);
-
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setLayout(new java.awt.GridBagLayout());
@@ -92,49 +97,57 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(24, 31, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(25, 32, 0, 0);
         jPanel3.add(jLabel4, gridBagConstraints);
 
-        Name.addActionListener(new java.awt.event.ActionListener() {
+        txtFulName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NameActionPerformed(evt);
+                txtFulNameActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 238;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 53, 0, 32);
-        jPanel3.add(Name, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(22, 32, 0, 11);
+        jPanel3.add(txtFulName, gridBagConstraints);
 
         jLabel7.setText("Gender");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(17, 31, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(21, 32, 0, 0);
         jPanel3.add(jLabel7, gridBagConstraints);
 
-        jRadioButtonMale.setText("Male");
+        buttonGroup1.add(rdoMale);
+        rdoMale.setText("Male");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(17, 32, 0, 0);
+        jPanel3.add(rdoMale, gridBagConstraints);
+
+        buttonGroup1.add(rdoFeMale);
+        rdoFeMale.setText("Female");
+        rdoFeMale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoFeMaleActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(13, 53, 0, 0);
-        jPanel3.add(jRadioButtonMale, gridBagConstraints);
-
-        jRadioButtonFemale.setText("Female");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(13, 0, 0, 0);
-        jPanel3.add(jRadioButtonFemale, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(17, 2, 0, 0);
+        jPanel3.add(rdoFeMale, gridBagConstraints);
 
         jLabel6.setText("BirthDate");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -142,17 +155,8 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 31, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(21, 32, 0, 0);
         jPanel3.add(jLabel6, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 238;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 53, 0, 32);
-        jPanel3.add(BirthDate, gridBagConstraints);
 
         jLabel8.setText("Address");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -160,75 +164,53 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 31, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(21, 32, 0, 0);
         jPanel3.add(jLabel8, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.ipadx = 238;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 53, 0, 32);
-        jPanel3.add(Address, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(18, 32, 0, 11);
+        jPanel3.add(txtAddress, gridBagConstraints);
 
         jLabel5.setText("PhoneNumber");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 31, 0, 0);
-        jPanel3.add(jLabel5, gridBagConstraints);
-
-        PhoneNumber.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PhoneNumberActionPerformed(evt);
-            }
-        });
-        PhoneNumber.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                PhoneNumberKeyTyped(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 238;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 53, 0, 32);
-        jPanel3.add(PhoneNumber, gridBagConstraints);
-
-        jLabel9.setText("Description");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 31, 0, 0);
-        jPanel3.add(jLabel9, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(36, 32, 100, 0);
+        jPanel3.add(jLabel5, gridBagConstraints);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
+        txtPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPhoneNumberActionPerformed(evt);
+            }
+        });
+        txtPhoneNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPhoneNumberKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 238;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(30, 32, 100, 11);
+        jPanel3.add(txtPhoneNumber, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 217;
-        gridBagConstraints.ipady = 98;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(18, 53, 42, 32);
-        jPanel3.add(jScrollPane1, gridBagConstraints);
-
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 380));
+        gridBagConstraints.insets = new java.awt.Insets(18, 32, 0, 0);
+        jPanel3.add(dateBirth, gridBagConstraints);
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -251,15 +233,6 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(21, 22, 0, 0);
         jPanel4.add(jLabel3, gridBagConstraints);
-
-        jLabel10.setText("Enter the Password");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 22, 0, 0);
-        jPanel4.add(jLabel10, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -268,7 +241,7 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 238;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 0, 0, 0);
-        jPanel4.add(jTextField1, gridBagConstraints);
+        jPanel4.add(txtUsername, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -277,25 +250,15 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 238;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 0, 0, 0);
-        jPanel4.add(jTextField2, gridBagConstraints);
+        jPanel4.add(txtPassWord, gridBagConstraints);
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Sign Up");
+        jButton1.setBackground(new java.awt.Color(0, 153, 255));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 238;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 0, 0, 0);
-        jPanel4.add(jTextField3, gridBagConstraints);
-
-        jButton1.setBackground(new java.awt.Color(0, 153, 255));
-        jButton1.setText("Sign Up");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 7;
@@ -305,8 +268,8 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
         jPanel4.add(jButton1, gridBagConstraints);
 
-        jButton2.setBackground(new java.awt.Color(255, 0, 51));
         jButton2.setText("Cancel");
+        jButton2.setBackground(new java.awt.Color(255, 0, 51));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 7;
@@ -334,37 +297,117 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 64, 0);
         jPanel4.add(jLabel12, gridBagConstraints);
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, 450, 380));
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        getContentPane().add(jPanel2, gridBagConstraints);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
+    private void txtFulNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFulNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_NameActionPerformed
+    }//GEN-LAST:event_txtFulNameActionPerformed
 
-    private void PhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhoneNumberActionPerformed
+    private void rdoFeMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoFeMaleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PhoneNumberActionPerformed
+    }//GEN-LAST:event_rdoFeMaleActionPerformed
 
-    private void PhoneNumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PhoneNumberKeyTyped
+    private void txtPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPhoneNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPhoneNumberActionPerformed
+
+    private void txtPhoneNumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneNumberKeyTyped
         // TODO add your handling code here:
 
         //allow only numbers
         if(!Character.isDigit(evt.getKeyChar())){
             evt.consume();
         }
-    }//GEN-LAST:event_PhoneNumberKeyTyped
+    }//GEN-LAST:event_txtPhoneNumberKeyTyped
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+        SyntaxCheck syntaxCheck = new SyntaxCheck();
+        StringBuilder sb = new StringBuilder();
+        if (txtFulName.getText().equals("")) {
+            sb.append("Please enter your full name! ");
+            JOptionPane.showMessageDialog(this, sb);
+            return;
+        }
+        if (dateBirth.equals(null)) {
+            sb.append("Please enter your BirthDate! ");
+            JOptionPane.showMessageDialog(this, sb);
+            return;
+        }
+        if (syntaxCheck.checkEmpty(txtAddress.getText())) {
+            sb.append("Please enter your Address! ");
+            JOptionPane.showMessageDialog(this, sb);
+            return;
+        }
+        if (syntaxCheck.checkEmpty(txtPhoneNumber.getText())) {
+            sb.append("Please enter your Phone Number! ");
+            JOptionPane.showMessageDialog(this, sb);
+            return;
+        }
+        if (syntaxCheck.checkNumberOfCharactor(txtUsername.getText())) {    
+            sb.append("Username must be 8 characters long. Please re-enter!");
+            JOptionPane.showMessageDialog(this, sb);
+            return;
+        }
+        if (syntaxCheck.checkNumberOfCharactor(txtPassWord.getText())) {    
+            sb.append("PassWord must be 8 characters long. Please re-enter!");
+            JOptionPane.showMessageDialog(this, sb);
+            return;
+        }
+        String gender = "";
+        if (rdoFeMale.isSelected()) {
+            gender = rdoFeMale.getText();
+        }
+        if (rdoMale.isSelected()) {
+            gender = rdoMale.getText();
+        }
+        
+        UserDTO udto = new UserDTO();
+        udto.setUsername(txtUsername.getText());
+        udto.setPassword(txtPassWord.getText());
+        udto.setId(1);
+        udto.setAddress(txtAddress.getText());
+        LocalDate ld = dateBirth.getDate();
+        java.util.Date date = java.sql.Date.valueOf(ld);
+        udto.setBirthdate(date);
+        udto.setGender(gender);
+        udto.setPhoneNumber(txtPhoneNumber.getText());
+        try {
+            IReading adminrIReadingeading = (IReading) Naming.lookup("rmi://localhost:7898/reading");
+            adminrIReadingeading.signup(udto);
+        } catch (NotBoundException | RemoteException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            System.out.println("Loi o day");
+            Logger.getLogger(SignUpForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -395,13 +438,35 @@ public class SignUpForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SignUpForm().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new SignUpForm().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private com.github.lgooddatepicker.components.DatePicker dateBirth;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JRadioButton rdoFeMale;
+    private javax.swing.JRadioButton rdoMale;
+    private javax.swing.JTextField txtAddress;
+    private javax.swing.JTextField txtFulName;
+    private javax.swing.JTextField txtPassWord;
+    private javax.swing.JTextField txtPhoneNumber;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

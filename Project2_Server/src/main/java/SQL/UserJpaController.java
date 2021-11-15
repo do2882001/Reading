@@ -27,6 +27,10 @@ public class UserJpaController implements Serializable {
     }
     private EntityManagerFactory emf = null;
 
+    public UserJpaController() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -99,15 +103,13 @@ public class UserJpaController implements Serializable {
 //        Query query = em.createNamedQuery("User.login");
         
         Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName and u.passWord = :passWord");
-        System.out.println(query+"Alo123456");
+//        ResultSet rs1 = query.executeQuery();
         query.setParameter("userName", username);
         query.setParameter("passWord", pass);
 //        query.getResultList();
-        int kq = query.getMaxResults();
-        if (kq == 0) {
-            return false;
-        }
-        return true;
+        List result = query.getResultList();
+        System.out.println("So phan tu tim dc"+result.size());
+        return result.size()==1;
     }
 
     public List<User> findUserEntities(int maxResults, int firstResult) {
@@ -151,5 +153,4 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-
 }
