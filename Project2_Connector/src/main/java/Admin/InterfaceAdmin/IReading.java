@@ -10,7 +10,6 @@ import Model.DTO.UserDTO;
 import Model.DTO.BookDTO;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Date;
 
 /**
  *
@@ -24,4 +23,5 @@ public interface IReading extends Remote {
     
     boolean signup(UserDTO userDTO)throws RemoteException;
     BookDTO addNewbook(BookDTO dTO) throws RemoteException;// add thanh cong tra ve bookdto, that bai tra ve null
+    boolean forgotPassWord_Change(String username , String phonenumber, String newpassword )throws RemoteException;
 }

@@ -7,7 +7,9 @@ package Server;
 
 
 import Model.DTO.BookDTO;
+import Model.DTO.UserDTO;
 import SQL.JPA.Book;
+import SQL.JPA.User;
 
 /**
  *
@@ -41,5 +43,38 @@ public class MappingDTOtoEntity {
         book.setCategoryId(entity.getCategoryId());
         ///vv.v..v
         return book;
+    }
+     public static UserDTO userEnitytoDTO(User entity) {
+
+        if (entity == null) {
+            return null;
+        }
+        UserDTO udto = new UserDTO();
+        udto.setAddress(entity.getAddress());
+        udto.setBirthdate(entity.getBirthdate());
+        udto.setGender(entity.getGender());
+        udto.setName(entity.getName());
+        udto.setUsername(entity.getUserName());
+        udto.setPhoneNumber(entity.getPhoneNumber());
+        udto.setRoleId(entity.getRoleId());
+        udto.setAvatarUrl(entity.getAvatarUrl());
+        udto.setId(entity.getRoleId());
+        return udto;
+    }
+     public static User userDTOtoUser(UserDTO entity) {
+
+        if (entity == null) {
+            return null;
+        }
+        User u = new User();
+        u.setAddress(entity.getAddress());
+        u.setBirthdate(entity.getBirthdate());
+        u.setGender(entity.getGender());
+        u.setName(entity.getName());
+        u.setUsername(entity.getUsername());
+        u.setPhoneNumber(entity.getPhoneNumber());
+        u.setRoleId(entity.getRoleId());
+        u.setAvatarUrl(entity.getAvatarUrl());
+        return u;
     }
 }

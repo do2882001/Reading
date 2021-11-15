@@ -10,12 +10,16 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -221,5 +225,8 @@ public class User implements Serializable {
     public void setAvatarUrl(byte[] avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
-    
+
+    public void setUsername(String username) {
+        this.userName = username;
+    }
 }

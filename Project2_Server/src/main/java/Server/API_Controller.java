@@ -19,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
+import javax.persistence.Query;
 
 /**
  *
@@ -85,12 +86,43 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
 
     @Override
     public boolean signup(UserDTO userDTO) throws RemoteException {
+        System.out.println("Heloo");
         UserJpaController ujc = new UserJpaController(emf);
         EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(userDTO);// persirt == insert into , merge = update , remove == delete
-        em.getTransaction().commit();
-        em.close();
-        return false;
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName");
+        query.setParameter("userName", userDTO.getName());
+        
+        if (query.getResultList().isEmpty()) {
+            return false;
+        }else{
+            em.getTransaction().begin();
+            em.persist(userDTO);// persirt == insert into , merge = update , remove == delete
+            em.getTransaction().commit();
+            em.close();
+            return true;
+        }
+        
+        
+        
+        
+//        em.getTransaction().begin();
+//        em.persist(userDTO);// persirt == insert into , merge = update , remove == delete
+//        em.getTransaction().commit();
+//        em.close();
+    }
+
+    @Override
+    public boolean forgotPassWord_Change(String username, String phonenumber, String newpassword) throws RemoteException {
+        UserJpaController ujc = new UserJpaController(emf);
+        EntityManager em = emf.createEntityManager();
+        if (ujc.checkInfoUser(username, phonenumber)) {
+            System.out.println("Dang doi mat khau");
+            try {
+                ujc.changePassWord(username, phonenumber, newpassword);
+            } catch (Exception ex) {
+                Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return true;
+        }else return false;
     }
 }
