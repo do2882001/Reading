@@ -16,15 +16,15 @@ public class UserDTO {
     private Date Birthdate;
     private String Gender;
     private String Address;
-    private String AvatarUrl;
-    private RoleDTO role;
+    private byte[] AvatarUrl;
+    private int roleId;
 
 //    private ArrayList<FeedbackDTO> FeedbackList;
     
     public UserDTO() {
     }
 
-    public UserDTO(int Id, String Username, String Password, String Name, String PhoneNumber, Date Birthdate, String Gender, String Address, String AvatarUrl, RoleDTO role) {
+    public UserDTO(int Id, String Username, String Password, String Name, String PhoneNumber, Date Birthdate, String Gender, String Address, byte[] AvatarUrl, int roleId) {
         this.Id = Id;
         this.Username = Username;
         this.Password = Password;
@@ -34,16 +34,8 @@ public class UserDTO {
         this.Gender = Gender;
         this.Address = Address;
         this.AvatarUrl = AvatarUrl;
-        this.role = role;
+        this.roleId = roleId;
     }
-
-//    public ArrayList<FeedbackDTO> getFeedbackList() {
-//        return FeedbackList;
-//    }
-//
-//    public void setFeedbackList(ArrayList<FeedbackDTO> FeedbackList) {
-//        this.FeedbackList = FeedbackList;
-//    }
 
     public int getId() {
         return Id;
@@ -77,12 +69,12 @@ public class UserDTO {
         return Address;
     }
 
-    public String getAvatarUrl() {
+    public byte[] getAvatarUrl() {
         return AvatarUrl;
     }
 
-    public RoleDTO getRole() {
-        return role;
+    public int getRoleId() {
+        return roleId;
     }
 
     public void setId(int Id) {
@@ -117,11 +109,12 @@ public class UserDTO {
         this.Address = Address;
     }
 
-    public void setAvatarUrl(String AvatarUrl) {
+    public void setAvatarUrl(byte[] AvatarUrl) {
         this.AvatarUrl = AvatarUrl;
     }
 
-    public void setRole(RoleDTO role) {
-        this.role = role;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
+    
 }
