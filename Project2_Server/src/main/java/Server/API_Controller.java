@@ -100,7 +100,7 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
 
         MappingDTOtoEntity mde = new MappingDTOtoEntity();
         User u = mde.userDTOtoUser(userDTO);
-
+        System.out.println(u.getPassWord()+" Pass");
         if (query.getResultList().isEmpty()) {
             System.out.println("Heloo");
             em.getTransaction().begin();
@@ -131,15 +131,6 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
     }
 
     @Override
-    public void sendFeedBack(FeedbackDTO fdto) throws RemoteException {
-        FeedbackJpaController fjc = new FeedbackJpaController();
-        MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
-        Feedback fb = mappingDTOtoEntity.feedbackDTOtoFeedback(fdto);
-       
-        fjc.create(fb);
-    }
-
-    @Override
     public void reComment(String username, String content) throws RemoteException {
         FeedbackJpaController fjc = new FeedbackJpaController();
         
@@ -154,5 +145,35 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
     @Override
     public void removeBookFromListFavorite() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void changeInfo(UserDTO udto) throws RemoteException {
+        System.out.println(udto.getPhoneNumber());
+        UserJpaController ujc = new UserJpaController();
+        MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+        User u = mappingDTOtoEntity.userDTOtoUser(udto);
+        System.out.println(u.getPhoneNumber()+"Sdt");
+        try {
+            ujc.edit(u);
+        } catch (Exception ex) {
+            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void sendFeedBack(int UserId, String Content) throws RemoteException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+         EntityManager em = emf.createEntityManager();
+         
+        Feedback fbFeedback = new Feedback();
+        
+        fbFeedback.setContent(Content);
+        fbFeedback.setUserId(UserId);
+        
+        em.getTransaction().begin();
+        em.persist(fbFeedback);// persirt == insert into , merge = update , remove == delete
+        em.getTransaction().commit();
+        em.close();
     }
 }

@@ -21,14 +21,14 @@ public interface IReading extends Remote {
     int tinhTong(int a, int b) throws RemoteException;
 
     UserDTO login(String username, String pass) throws RemoteException;
-    
     boolean signup(UserDTO userDTO)throws RemoteException;
-    BookDTO addNewbook(BookDTO dTO) throws RemoteException;// add thanh cong tra ve bookdto, that bai tra ve null
     boolean forgotPassWord_Change(String username , String phonenumber, String newpassword )throws RemoteException;
+    void changeInfo(UserDTO udto)throws RemoteException;
     
-    void sendFeedBack(FeedbackDTO fdto)throws RemoteException;
+    void sendFeedBack(int UserId, String Content)throws RemoteException;
     void reComment(String username , String content)throws RemoteException;
     
+    BookDTO addNewbook(BookDTO dTO) throws RemoteException;
     void addBookToListFavorite()throws RemoteException;
     void removeBookFromListFavorite()throws RemoteException;
 }

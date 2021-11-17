@@ -113,6 +113,7 @@ public class AccountInfo {
     }
 
     public void setInfo(UserDTO entity) {
+        this.UserId = entity.getId();
         this.Address = entity.getAddress();
         this.Birthdate = entity.getBirthdate();
         this.Gender = entity.getGender();
@@ -122,6 +123,14 @@ public class AccountInfo {
         this.AvatarUrl = entity.getAvatarUrl();
     }
     public UserDTO converttoUserDTO(){
-        return null;
+        UserDTO udto = new UserDTO();
+        udto.setAddress(this.Address);
+        udto.setBirthdate(this.Birthdate);
+        udto.setGender(this.Gender);
+        udto.setName(this.Name);
+        udto.setPhoneNumber(this.PhoneNumber);
+        udto.setUsername(this.Username);
+        udto.setId(this.UserId);
+        return udto;
     }
 }

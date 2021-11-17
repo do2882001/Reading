@@ -7,20 +7,13 @@ package View;
 
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
-import com.github.lgooddatepicker.components.CalendarPanel;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,11 +21,11 @@ import javax.swing.JOptionPane;
  * @author Do_Do
  */
 public class SignUpForm extends javax.swing.JFrame {
-
     /**
      * Creates new form SignUp
      */
     public SignUpForm() {
+        //adminrIReadingeading = (IReading) Naming.lookup("rmi://localhost:7898/reading");
         initComponents();
     }
 
@@ -66,7 +59,7 @@ public class SignUpForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         txtPassWord = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnSignUp = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -252,11 +245,11 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(18, 0, 0, 0);
         jPanel4.add(txtPassWord, gridBagConstraints);
 
-        jButton1.setText("Sign Up");
-        jButton1.setBackground(new java.awt.Color(0, 153, 255));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSignUp.setText("Sign Up");
+        btnSignUp.setBackground(new java.awt.Color(0, 153, 255));
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSignUpActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -266,7 +259,7 @@ public class SignUpForm extends javax.swing.JFrame {
         gridBagConstraints.ipady = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
-        jPanel4.add(jButton1, gridBagConstraints);
+        jPanel4.add(btnSignUp, gridBagConstraints);
 
         jButton2.setText("Cancel");
         jButton2.setBackground(new java.awt.Color(255, 0, 51));
@@ -350,8 +343,14 @@ public class SignUpForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPhoneNumberKeyTyped
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        LoginForm lf = new LoginForm();
+        lf.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
         SyntaxCheck syntaxCheck = new SyntaxCheck();
         StringBuilder sb = new StringBuilder();
         if (txtFulName.getText().equals("")) {
@@ -403,23 +402,25 @@ public class SignUpForm extends javax.swing.JFrame {
         udto.setGender(gender);
         udto.setPhoneNumber(txtPhoneNumber.getText());
         udto.setName(txtFulName.getText());
+        
         try {
+            System.out.println(udto.getPassword());
             IReading adminrIReadingeading = (IReading) Naming.lookup("rmi://localhost:7898/reading");
             adminrIReadingeading.signup(udto);
-        } catch (NotBoundException | RemoteException ex) {
+            System.out.println(udto.getPassword());
+            
+            
+            
+//            if (adminrIReadingeading.signup(udto) == true) {
+//                System.out.println(udto.getPassword());
+//            }else{
+//                System.out.println("That bai");
+//            }
+            
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(SignUpForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        LoginForm lf = new LoginForm();
-        lf.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnSignUpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -456,9 +457,9 @@ public class SignUpForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSignUp;
     private javax.swing.ButtonGroup buttonGroup1;
     private com.github.lgooddatepicker.components.DatePicker dateBirth;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

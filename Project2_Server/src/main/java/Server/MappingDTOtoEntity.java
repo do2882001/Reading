@@ -61,6 +61,7 @@ public class MappingDTOtoEntity {
         udto.setRoleId(entity.getRoleId());
         udto.setAvatarUrl(entity.getAvatarUrl());
         udto.setId(entity.getRoleId());
+        udto.setPassword(entity.getPassWord());
         return udto;
     }
      public static User userDTOtoUser(UserDTO entity) {
@@ -69,6 +70,7 @@ public class MappingDTOtoEntity {
             return null;
         }
         User u = new User();
+        u.setPassWord(entity.getPassword());
         u.setAddress(entity.getAddress());
         u.setBirthdate(entity.getBirthdate());
         u.setGender(entity.getGender());

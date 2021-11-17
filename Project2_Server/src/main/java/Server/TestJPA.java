@@ -6,6 +6,8 @@
 package Server;
 
 
+import SQL.FeedbackJpaController;
+import SQL.JPA.Feedback;
 import SQL.JPA.User;
 import SQL.UserJpaController;
 import SQL.exceptions.NonexistentEntityException;
@@ -37,6 +39,8 @@ public class TestJPA {
     }
     public static void main(String[] args) throws Exception {
 //         //Test SignUp  
+//         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+//         EntityManager em = emf.createEntityManager();
 //        LocalDate lDate ;
 //        lDate = java.time.LocalDate.now();
 //        java.util.Date date = java.sql.Date.valueOf(lDate);
@@ -53,32 +57,29 @@ public class TestJPA {
 //        em.persist(user);// persirt == insert into , merge = update , remove == delete
 //        em.getTransaction().commit();
 //        em.close();
-//        System.out.println(user.getBirthdate());
-//        List l = nq.getResultList();
-//        System.out.println("List size: " + l.size());
-        //Query query = em.createQuery("UPDATE User u SET u.passWord = :passWord WHERE u.userName = :userName");
+
         
         
         // update password
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
-        EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName and u.passWord = :passWord");
-        query.setParameter("passWord", "123456789");
-        query.setParameter("userName", "do123456");
-        User user = (User) query.getSingleResult();
-        user.setPassWord("123123123");
-        try {
-            em.getTransaction().begin();
-            user = em.merge(user);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            String msg = ex.getLocalizedMessage();
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+//        EntityManager em = emf.createEntityManager();
+//        Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName and u.passWord = :passWord");
+//        query.setParameter("passWord", "123456789");
+//        query.setParameter("userName", "do123456");
+//        User user = (User) query.getSingleResult();
+//        user.setPassWord("123123123");
+//        try {
+//            em.getTransaction().begin();
+//            user = em.merge(user);
+//            em.getTransaction().commit();
+//        } catch (Exception ex) {
+//            String msg = ex.getLocalizedMessage();
+//            throw ex;
+//        } finally {
+//            if (em != null) {
+//                em.close();
+//            }
+//        }
         
         
         
@@ -105,6 +106,20 @@ public class TestJPA {
 //        UserJpaController ucs = new UserJpaController();
 //        ucs.edit(u);
 //        em.close();
+
+        //         //Test SignUp  
+         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+         EntityManager em = emf.createEntityManager();
+         
+        Feedback fbFeedback = new Feedback();
+        
+        fbFeedback.setContent("Alo bro");
+        fbFeedback.setUserId(22);
+        
+        em.getTransaction().begin();
+        em.persist(fbFeedback);// persirt == insert into , merge = update , remove == delete
+        em.getTransaction().commit();
+        em.close();
     }
 }
 

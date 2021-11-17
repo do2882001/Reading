@@ -5,7 +5,9 @@
  */
 package View;
 
+import Admin.InterfaceAdmin.IReading;
 import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
@@ -21,14 +23,16 @@ import main.AccountInfo;
  */
 public class HomePage extends javax.swing.JFrame {
     static AccountInfo accountInfo;
+    IReading adminrIReadingeading;
     /**
      * Creates new form HomePage
      * @param acc
      */
-    public HomePage(AccountInfo acc) {
+    public HomePage(AccountInfo acc) throws NotBoundException, MalformedURLException, RemoteException {
         initComponents();
         accountInfo = acc;
         loadingInfomation();
+        adminrIReadingeading = (IReading) Naming.lookup("rmi://localhost:7898/reading");
     }
 
     private HomePage() {
@@ -66,14 +70,14 @@ public class HomePage extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtContent = new javax.swing.JTextArea();
+        btnHistory = new javax.swing.JButton();
+        btnSendFeedBack = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -101,7 +105,7 @@ public class HomePage extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(11, 19, 0, 0);
         getContentPane().add(jLabel1, gridBagConstraints);
 
         jTabbedPane1.setBorder(new javax.swing.border.MatteBorder(null));
@@ -141,7 +145,7 @@ public class HomePage extends javax.swing.JFrame {
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextField1))
                         .addGap(4, 4, 4)))
-                .addContainerGap(341, Short.MAX_VALUE))
+                .addContainerGap(395, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Home            ", jPanel1);
@@ -150,27 +154,33 @@ public class HomePage extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+            .addGap(0, 531, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 383, Short.MAX_VALUE)
+            .addGap(0, 437, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Category       ", jPanel2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        jLabel9.setText("Img");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(434, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(340, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -178,14 +188,14 @@ public class HomePage extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -194,15 +204,20 @@ public class HomePage extends javax.swing.JFrame {
         jLabel3.setText("Content");
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtContent.setColumns(20);
+        txtContent.setRows(5);
+        jScrollPane2.setViewportView(txtContent);
 
-        jButton2.setText("History");
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnHistory.setText("History");
+        btnHistory.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        jButton3.setText("Send");
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnSendFeedBack.setText("Send");
+        btnSendFeedBack.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnSendFeedBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendFeedBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -212,14 +227,14 @@ public class HomePage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addComponent(btnSendFeedBack)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                        .addComponent(btnHistory))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,9 +245,9 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(176, Short.MAX_VALUE))
+                    .addComponent(btnHistory)
+                    .addComponent(btnSendFeedBack))
+                .addContainerGap(230, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Feedback         ", jPanel4);
@@ -284,6 +299,11 @@ public class HomePage extends javax.swing.JFrame {
         });
 
         txtChangePassWord.setText("ChangePassWord");
+        txtChangePassWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtChangePassWordActionPerformed(evt);
+            }
+        });
 
         btnLogOut.setText("LogOut");
         btnLogOut.addActionListener(new java.awt.event.ActionListener() {
@@ -332,7 +352,7 @@ public class HomePage extends javax.swing.JFrame {
                                 .addComponent(btnChangeInfo)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtChangePassWord)))))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,7 +400,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+            .addGap(0, 531, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
                     .addContainerGap()
@@ -389,7 +409,7 @@ public class HomePage extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 383, Short.MAX_VALUE)
+            .addGap(0, 437, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
                     .addGap(31, 31, 31)
@@ -403,9 +423,10 @@ public class HomePage extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipady = 32;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 86;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 10, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(3, 19, 11, 10);
         getContentPane().add(jTabbedPane1, gridBagConstraints);
 
         pack();
@@ -450,6 +471,26 @@ public class HomePage extends javax.swing.JFrame {
         l.setVisible(true);
     }//GEN-LAST:event_btnLogOutActionPerformed
 
+    private void btnSendFeedBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendFeedBackActionPerformed
+        try {
+            // TODO add your handling code here:
+            adminrIReadingeading.sendFeedBack(accountInfo.getUserId() , txtContent.getText());
+        } catch (RemoteException ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("Thanks for your respond!");
+        JOptionPane.showMessageDialog(this, sb);
+        txtContent.setText("");
+    }//GEN-LAST:event_btnSendFeedBackActionPerformed
+
+    private void txtChangePassWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChangePassWordActionPerformed
+        // TODO add your handling code here:
+        ChangePassWord changePassWord = new ChangePassWord();
+        changePassWord.setVisible(true);
+    }//GEN-LAST:event_txtChangePassWordActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -488,11 +529,11 @@ public class HomePage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChangeInfo;
+    private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnLogOut;
+    private javax.swing.JButton btnSendFeedBack;
     private com.github.lgooddatepicker.components.DatePicker dateBirth;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -501,22 +542,22 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JRadioButton rdoFeMale;
     private javax.swing.JRadioButton rdoMale;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JButton txtChangePassWord;
+    private javax.swing.JTextArea txtContent;
     private javax.swing.JTextField txtFulName;
     private javax.swing.JTextField txtPhoneNumber;
     // End of variables declaration//GEN-END:variables

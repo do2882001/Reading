@@ -6,10 +6,12 @@
 package View;
 
 import Admin.InterfaceAdmin.IReading;
+import Model.DTO.UserDTO;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -298,6 +300,20 @@ public class ChangeInfo extends javax.swing.JFrame {
         }
         if (rdoMale.isSelected()) {
             gender = rdoMale.getText();
+        }
+        accountInfo.setAddress(txtAddress.getText());
+        LocalDate ld = dateBirth.getDate();
+        java.util.Date date = java.sql.Date.valueOf(ld);
+        accountInfo.setBirthdate(date);
+        accountInfo.setName(txtFulName.getText());
+        accountInfo.setPhoneNumber(txtPhoneNumber.getText());
+        accountInfo.setGender(gender);
+        
+        UserDTO udto = accountInfo.converttoUserDTO();
+        try {
+            adminrIReadingeading.changeInfo(udto);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChangeInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSubmitActionPerformed
 

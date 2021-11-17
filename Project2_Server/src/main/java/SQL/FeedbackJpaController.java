@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -21,14 +22,13 @@ import javax.persistence.criteria.Root;
  * @author Do_Do
  */
 public class FeedbackJpaController implements Serializable {
-
     public FeedbackJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
     public FeedbackJpaController() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public EntityManager getEntityManager() {
@@ -36,6 +36,7 @@ public class FeedbackJpaController implements Serializable {
     }
 
     public void create(Feedback feedback) {
+        //EntityManager em = emf.createEntityManager();
         EntityManager em = null;
         try {
             em = getEntityManager();
