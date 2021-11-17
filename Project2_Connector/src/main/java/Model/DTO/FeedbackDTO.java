@@ -7,60 +7,68 @@ package Model.DTO;
 
 
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  *
  * @author Do_Do
  */
-public class FeedbackDTO {
+public class FeedbackDTO implements Serializable{
     private int FeedBackId;
-    private UserDTO user;
+    private int UserId;
     private Date FeedBackDate;
     private String Content;
+    private String Description;
 
     public FeedbackDTO() {
     }
 
-    public FeedbackDTO(int FeedBackId, UserDTO user, Date FeedBackDate, String Content) {
+    public FeedbackDTO(int FeedBackId, int UserId, Date FeedBackDate, String Content, String Description) {
         this.FeedBackId = FeedBackId;
-        this.user = user;
+        this.UserId = UserId;
         this.FeedBackDate = FeedBackDate;
         this.Content = Content;
-    }
-
-    public String getContent() {
-        return Content;
-    }
-
-    public Date getFeedBackDate() {
-        return FeedBackDate;
+        this.Description = Description;
     }
 
     public int getFeedBackId() {
         return FeedBackId;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public int getUserId() {
+        return UserId;
     }
 
-    public void setContent(String Content) {
-        this.Content = Content;
+    public Date getFeedBackDate() {
+        return FeedBackDate;
     }
 
-    public void setFeedBackDate(Date FeedBackDate) {
-        this.FeedBackDate = FeedBackDate;
+    public String getContent() {
+        return Content;
+    }
+
+    public String getDescription() {
+        return Description;
     }
 
     public void setFeedBackId(int FeedBackId) {
         this.FeedBackId = FeedBackId;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setUserId(int UserId) {
+        this.UserId = UserId;
     }
 
-   
-    
+    public void setFeedBackDate(Date FeedBackDate) {
+        this.FeedBackDate = FeedBackDate;
+    }
+
+    public void setContent(String Content) {
+        this.Content = Content;
+    }
+
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
 }

@@ -19,6 +19,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
+import SQL.FeedbackJpaController;
+import SQL.JPA.Feedback;
+import SQL.JPA.User;
 import javax.persistence.Query;
 
 /**
@@ -39,10 +42,14 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         return a + b;
     }
 
-    public boolean login(String username, String pass) throws RemoteException {
+    @Override
+    public UserDTO login(String username, String pass) throws RemoteException {
         UserJpaController ujc = new UserJpaController(emf);
-        System.out.println("dang login");
-        return ujc.login(username, pass);
+        UserDTO udto = new UserDTO();
+        udto = ujc.login(username, pass);
+        if (udto != null) {
+            return udto;
+        }else return null;
     }
 
     public BookDTO addNewbook(BookDTO dTO) throws RemoteException// add thanh cong tra ve bookdto, that bai tra ve null
@@ -86,29 +93,24 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
 
     @Override
     public boolean signup(UserDTO userDTO) throws RemoteException {
-        System.out.println("Heloo");
         UserJpaController ujc = new UserJpaController(emf);
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName");
         query.setParameter("userName", userDTO.getName());
-        
+
+        MappingDTOtoEntity mde = new MappingDTOtoEntity();
+        User u = mde.userDTOtoUser(userDTO);
+
         if (query.getResultList().isEmpty()) {
-            return false;
-        }else{
+            System.out.println("Heloo");
             em.getTransaction().begin();
-            em.persist(userDTO);// persirt == insert into , merge = update , remove == delete
+            em.persist(u);// persirt == insert into , merge = update , remove == delete
             em.getTransaction().commit();
             em.close();
             return true;
+        } else {
+            return false;
         }
-        
-        
-        
-        
-//        em.getTransaction().begin();
-//        em.persist(userDTO);// persirt == insert into , merge = update , remove == delete
-//        em.getTransaction().commit();
-//        em.close();
     }
 
     @Override
@@ -123,6 +125,34 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
                 Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;
-        }else return false;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void sendFeedBack(FeedbackDTO fdto) throws RemoteException {
+        FeedbackJpaController fjc = new FeedbackJpaController();
+        MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+        Feedback fb = mappingDTOtoEntity.feedbackDTOtoFeedback(fdto);
+       
+        fjc.create(fb);
+    }
+
+    @Override
+    public void reComment(String username, String content) throws RemoteException {
+        FeedbackJpaController fjc = new FeedbackJpaController();
+        
+        //fjc.edit(feedback);
+    }
+
+    @Override
+    public void addBookToListFavorite() throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeBookFromListFavorite() throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

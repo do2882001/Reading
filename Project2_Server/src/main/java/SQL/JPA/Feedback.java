@@ -129,5 +129,9 @@ public class Feedback implements Serializable {
     public String toString() {
         return "Admin.ModelAdmin.SQL.Feedback[ feedBackId=" + feedBackId + " ]";
     }
+
+    public void setComment(String comment) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

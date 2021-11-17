@@ -7,8 +7,10 @@ package Server;
 
 
 import Model.DTO.BookDTO;
+import Model.DTO.FeedbackDTO;
 import Model.DTO.UserDTO;
 import SQL.JPA.Book;
+import SQL.JPA.Feedback;
 import SQL.JPA.User;
 
 /**
@@ -76,5 +78,18 @@ public class MappingDTOtoEntity {
         u.setRoleId(entity.getRoleId());
         u.setAvatarUrl(entity.getAvatarUrl());
         return u;
+    }
+     
+     public static Feedback feedbackDTOtoFeedback(FeedbackDTO entity) {
+
+        if (entity == null) {
+            return null;
+        }
+        Feedback fb = new Feedback();
+        //u.setAddress(entity.getAddress());
+        fb.setUserId(entity.getUserId());
+        fb.setContent(entity.getContent());
+        fb.setDescription(entity.getDescription());
+        return fb;
     }
 }

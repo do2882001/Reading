@@ -5,8 +5,10 @@
  */
 package SQL;
 
+import Model.DTO.UserDTO;
 import SQL.JPA.User;
 import SQL.exceptions.NonexistentEntityException;
+import Server.MappingDTOtoEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -138,18 +140,24 @@ public class UserJpaController implements Serializable {
             em.close();
         }
     }
-    public boolean login(String username, String pass) {
+    public UserDTO login(String username, String pass) {
         EntityManager em = getEntityManager();
 //        Query query = em.createNamedQuery("User.login");
         
         Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName and u.passWord = :passWord");
-//        ResultSet rs1 = query.executeQuery();
         query.setParameter("userName", username);
         query.setParameter("passWord", pass);
-//        query.getResultList();
         List result = query.getResultList();
+        
         System.out.println("So phan tu tim dc"+result.size());
-        return result.size()==1;
+        if (result.size()==1) {
+            User u = new User();
+            u = (User) query.getSingleResult();
+            MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+            UserDTO udto = new UserDTO();
+            udto = mappingDTOtoEntity.userEnitytoDTO(u);
+            return udto;
+        }else return null;
     }
     public boolean checkInfoUser(String username, String phonenumber) {
         EntityManager em = getEntityManager();
@@ -164,14 +172,6 @@ public class UserJpaController implements Serializable {
         System.out.println("So phan tu tim dc"+result.size());
         return result.size()==1;
     }
-//    public void changePassWord(String password, String username) {
-//        EntityManager em = getEntityManager();
-//        //Query query = em.createQuery("UPDATE User u SET u.passWord = :passWord WHERE u.userName = :userName");
-//        Query query = em.createQuery("update User u set u.passWord = :passWord where u.userName = :userName");
-//        query.setParameter("passWord", password);
-//        query.setParameter("userName", username);
-//        System.out.println("Doi mat khau thanh cong"+ password + " Username: " +username);
-//    }
     public void changePassWord(String username, String phonenumber, String newpassword) throws NonexistentEntityException, Exception {
         
         EntityManager em = emf.createEntityManager();
@@ -193,4 +193,7 @@ public class UserJpaController implements Serializable {
             }
         }
     }
+//    public  UserDTO getInfoUserDTO(String user){
+//        
+//    }
 }

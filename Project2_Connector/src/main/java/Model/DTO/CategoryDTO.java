@@ -6,13 +6,14 @@
 package Model.DTO;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author ADMIN
  */
-public class CategoryDTO {
+public class CategoryDTO implements Serializable {
     private int Id;
     private String Name, Description;
     

@@ -5,10 +5,11 @@
  */
 package Model.DTO;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class AuthorDTO {
+public class AuthorDTO implements Serializable{
     private int id;
     private String Name;
     private Date Birthdate;

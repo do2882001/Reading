@@ -3,30 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model.DTO;
+package main;
 
-import java.io.Serializable;
+import Model.DTO.UserDTO;
 import java.util.Date;
 
-public class UserDTO implements Serializable{
-    private int Id;
-    private String Username;
-    private String Password;
-    private String Name;
-    private String PhoneNumber;
-    private Date Birthdate;
-    private String Gender;
-    private String Address;
-    private byte[] AvatarUrl;
-    private int roleId;
+/**
+ *
+ * @author Do_Do
+ */
+public class AccountInfo {
+     int UserId;
+     String Username;
+     String Password;
+     String Name;
+     String PhoneNumber;
+     Date Birthdate;
+     String Gender;
+     String Address;
+     byte[] AvatarUrl;
 
 //    private ArrayList<FeedbackDTO> FeedbackList;
     
-    public UserDTO(){
+    public AccountInfo() {
     }
 
-    public UserDTO(int Id, String Username, String Password, String Name, String PhoneNumber, Date Birthdate, String Gender, String Address, byte[] AvatarUrl, int roleId) {
-        this.Id = Id;
+    public AccountInfo(int Id, String Username, String Password, String Name, String PhoneNumber, Date Birthdate, String Gender, String Address, byte[] AvatarUrl, int roleId) {
+        this.UserId = Id;
         this.Username = Username;
         this.Password = Password;
         this.Name = Name;
@@ -35,13 +38,16 @@ public class UserDTO implements Serializable{
         this.Gender = Gender;
         this.Address = Address;
         this.AvatarUrl = AvatarUrl;
-        this.roleId = roleId;
     }
 
-    public int getId() {
-        return Id;
+    public int getUserId() {
+        return UserId;
     }
 
+    public void setUserId(int UserId) {
+        this.UserId = UserId;
+    }
+    
     public String getUsername() {
         return Username;
     }
@@ -72,14 +78,6 @@ public class UserDTO implements Serializable{
 
     public byte[] getAvatarUrl() {
         return AvatarUrl;
-    }
-
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setId(int Id) {
-        this.Id = Id;
     }
 
     public void setUsername(String Username) {
@@ -114,8 +112,13 @@ public class UserDTO implements Serializable{
         this.AvatarUrl = AvatarUrl;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setInfo(UserDTO entity) {
+        this.Address = entity.getAddress();
+        this.Birthdate = entity.getBirthdate();
+        this.Gender = entity.getGender();
+        this.Name = entity.getName();
+        this.Username = entity.getUsername();
+        this.PhoneNumber = entity.getPhoneNumber();
+        this.AvatarUrl = entity.getAvatarUrl();
     }
-    
 }

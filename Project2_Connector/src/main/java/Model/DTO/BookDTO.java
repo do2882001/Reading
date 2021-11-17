@@ -6,6 +6,7 @@
 package Model.DTO;
 
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.time.Year;
 
@@ -14,7 +15,7 @@ import java.time.Year;
  *
  * @author Do_Do
  */
-public class BookDTO {
+public class BookDTO implements Serializable {
 
     private int BookId;
     private String BookName;
