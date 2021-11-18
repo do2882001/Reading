@@ -21,7 +21,10 @@ import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
 import SQL.FeedbackJpaController;
 import SQL.JPA.Feedback;
+import SQL.JPA.Listfavorite;
 import SQL.JPA.User;
+import java.awt.List;
+import java.util.ArrayList;
 import javax.persistence.Query;
 
 /**
@@ -175,5 +178,22 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         em.persist(fbFeedback);// persirt == insert into , merge = update , remove == delete
         em.getTransaction().commit();
         em.close();
+    }
+
+    @Override
+    public java.util.List loadListFavorite(int userId) throws RemoteException {
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+//        EntityManager em = emf.createEntityManager();
+//        Query query = em.createQuery("SELECT l FROM Listfavorite l  WHERE l.userId = :userId");
+//        query.setParameter("userId", userId);
+//        java.util.List l = query.getResultList();
+//        //Listfavorite category = (Listfavorite) l.get(1);
+//       java.util.List listId = null;
+//        for (int i = 0; i < l.size(); i++) {
+//            Listfavorite listfavorite = (Listfavorite) l.get(i);
+//            listId.add(listfavorite.getBookId());
+//            System.out.println(listfavorite.getBookId());
+//        }
+        return null;
     }
 }

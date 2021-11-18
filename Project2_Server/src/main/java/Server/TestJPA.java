@@ -8,10 +8,13 @@ package Server;
 
 import SQL.FeedbackJpaController;
 import SQL.JPA.Feedback;
+import SQL.JPA.Listfavorite;
 import SQL.JPA.User;
 import SQL.UserJpaController;
 import SQL.exceptions.NonexistentEntityException;
+import java.awt.List;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -107,19 +110,38 @@ public class TestJPA {
 //        ucs.edit(u);
 //        em.close();
 
-        //         //Test SignUp  
-         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
-         EntityManager em = emf.createEntityManager();
-         
-        Feedback fbFeedback = new Feedback();
-        
-        fbFeedback.setContent("Alo bro");
-        fbFeedback.setUserId(22);
-        
-        em.getTransaction().begin();
-        em.persist(fbFeedback);// persirt == insert into , merge = update , remove == delete
-        em.getTransaction().commit();
-        em.close();
+//        //         //Test SignUp  
+//         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+//         EntityManager em = emf.createEntityManager();
+//         
+//        Feedback fbFeedback = new Feedback();
+//        
+//        fbFeedback.setContent("Alo bro");
+//        fbFeedback.setUserId(22);
+//        
+//        em.getTransaction().begin();
+//        em.persist(fbFeedback);// persirt == insert into , merge = update , remove == delete
+//        em.getTransaction().commit();
+//        em.close();
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+//         EntityManager em = emf.createEntityManager();
+//         Query query = em.createQuery("SELECT l FROM Listfavorite l  WHERE l.userId = :userId");
+//         query.setParameter("userId", 22);
+//         java.util.List l = query.getResultList();
+//        Listfavorite category = (Listfavorite) l.get(1);
+//        System.out.println(category.getBookId());
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT l FROM Listfavorite l  WHERE l.userId = :userId");
+        query.setParameter("userId", 22);
+        java.util.List l = query.getResultList();
+        //Listfavorite category = (Listfavorite) l.get(1);
+       
+        for (int i = 0; i < l.size(); i++) {
+            Listfavorite listfavorite = (Listfavorite) l.get(i);
+           
+            System.out.println(listfavorite.getBookId());
+        }
     }
 }
 

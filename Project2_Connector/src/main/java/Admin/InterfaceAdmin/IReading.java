@@ -9,6 +9,7 @@ package Admin.InterfaceAdmin;
 import Model.DTO.UserDTO;
 import Model.DTO.BookDTO;
 import Model.DTO.FeedbackDTO;
+import java.awt.List;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -31,4 +32,5 @@ public interface IReading extends Remote {
     BookDTO addNewbook(BookDTO dTO) throws RemoteException;
     void addBookToListFavorite()throws RemoteException;
     void removeBookFromListFavorite()throws RemoteException;
+    java.util.List loadListFavorite(int userId)throws RemoteException;
 }

@@ -7,6 +7,7 @@
     <class>SQL.JPA.Category</class>
     <class>SQL.JPA.Feedback</class>
     <class>SQL.JPA.User</class>
+    <class>SQL.JPA.Listfavorite</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/readbook"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
