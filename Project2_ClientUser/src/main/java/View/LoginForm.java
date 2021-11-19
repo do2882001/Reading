@@ -5,7 +5,7 @@
  */
 package View;
 
-import main.AccountInfo;
+import main.Info.AccountInfo;
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
 
@@ -195,7 +195,7 @@ public class LoginForm extends javax.swing.JFrame {
                 txtUserName.setText("");
             }else{
                 accountInfo.setInfo(u);
-                System.out.println(u.getName());
+                System.out.println("Id: "+ accountInfo.getUserId());
                 sb.append("Successfully!");
                 JOptionPane.showMessageDialog(this, sb);
                 HomePage homePage = new HomePage(accountInfo);

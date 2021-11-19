@@ -394,7 +394,7 @@ public class SignUpForm extends javax.swing.JFrame {
         UserDTO udto = new UserDTO();
         udto.setUsername(txtUsername.getText());
         udto.setPassword(txtPassWord.getText());
-        udto.setId(2);//UserAccount
+        udto.setRoleId(2);//UserAccount
         udto.setAddress(txtAddress.getText());
         LocalDate ld = dateBirth.getDate();
         java.util.Date date = java.sql.Date.valueOf(ld);

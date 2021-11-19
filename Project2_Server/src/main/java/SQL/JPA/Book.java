@@ -25,27 +25,18 @@ import javax.persistence.TemporalType;
  * @author Do_Do
  */
 @Entity(name="Book")
-@Table(name = "book", catalog = "readbook", schema = "")
+@Table(name = "book")
 @NamedQueries({
     @NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b"),
     @NamedQuery(name = "Book.findByBookId", query = "SELECT b FROM Book b WHERE b.bookId = :bookId"),
     @NamedQuery(name = "Book.findByBookName", query = "SELECT b FROM Book b WHERE b.bookName = :bookName"),
     @NamedQuery(name = "Book.findByAuthorId", query = "SELECT b FROM Book b WHERE b.authorId = :authorId"),
     @NamedQuery(name = "Book.findByType", query = "SELECT b FROM Book b WHERE b.type = :type"),
+    @NamedQuery(name = "Book.findByCategoryId", query = "SELECT b FROM Book b WHERE b.categoryId = :categoryId"),
     @NamedQuery(name = "Book.findByReleaseDate", query = "SELECT b FROM Book b WHERE b.releaseDate = :releaseDate"),
     @NamedQuery(name = "Book.findByCountry", query = "SELECT b FROM Book b WHERE b.country = :country"),
-    @NamedQuery(name = "Book.findByDescription", query = "SELECT b FROM Book b WHERE b.description = :description"),
-    @NamedQuery(name = "Book.findByCategoryId", query = "SELECT b FROM Book b WHERE b.categoryId = :categoryId")})
+    @NamedQuery(name = "Book.findByDescription", query = "SELECT b FROM Book b WHERE b.description = :description")})
 public class Book implements Serializable {
-
-    @Basic(optional = false)
-    @Lob
-    @Column(name = "PosterUrl")
-    private byte[] posterUrl;
-    @Basic(optional = false)
-    @Lob
-    @Column(name = "BookUrl")
-    private byte[] bookUrl;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,6 +53,9 @@ public class Book implements Serializable {
     @Column(name = "Type")
     private String type;
     @Basic(optional = false)
+    @Column(name = "CategoryId")
+    private int categoryId;
+    @Basic(optional = false)
     @Column(name = "ReleaseDate")
     @Temporal(TemporalType.DATE)
     private Date releaseDate;
@@ -71,8 +65,13 @@ public class Book implements Serializable {
     @Column(name = "Description")
     private String description;
     @Basic(optional = false)
-    @Column(name = "CategoryId")
-    private int categoryId;
+    @Lob
+    @Column(name = "PosterUrl")
+    private byte[] posterUrl;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "BookUrl")
+    private byte[] bookUrl;
 
     public Book() {
     }
@@ -81,15 +80,15 @@ public class Book implements Serializable {
         this.bookId = bookId;
     }
 
-    public Book(Integer bookId, String bookName, String type, Date releaseDate, String country, byte[] posterUrl, byte[] bookUrl, int categoryId) {
+    public Book(Integer bookId, String bookName, String type, int categoryId, Date releaseDate, String country, byte[] posterUrl, byte[] bookUrl) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.type = type;
+        this.categoryId = categoryId;
         this.releaseDate = releaseDate;
         this.country = country;
         this.posterUrl = posterUrl;
         this.bookUrl = bookUrl;
-        this.categoryId = categoryId;
     }
 
     public Integer getBookId() {
@@ -124,6 +123,14 @@ public class Book implements Serializable {
         this.type = type;
     }
 
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
     public Date getReleaseDate() {
         return releaseDate;
     }
@@ -148,13 +155,20 @@ public class Book implements Serializable {
         this.description = description;
     }
 
-
-    public int getCategoryId() {
-        return categoryId;
+    public byte[] getPosterUrl() {
+        return posterUrl;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setPosterUrl(byte[] posterUrl) {
+        this.posterUrl = posterUrl;
+    }
+
+    public byte[] getBookUrl() {
+        return bookUrl;
+    }
+
+    public void setBookUrl(byte[] bookUrl) {
+        this.bookUrl = bookUrl;
     }
 
     @Override
@@ -179,23 +193,7 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Admin.ModelAdmin.SQL.Book[ bookId=" + bookId + " ]";
-    }
-
-    public byte[] getPosterUrl() {
-        return posterUrl;
-    }
-
-    public void setPosterUrl(byte[] posterUrl) {
-        this.posterUrl = posterUrl;
-    }
-
-    public byte[] getBookUrl() {
-        return bookUrl;
-    }
-
-    public void setBookUrl(byte[] bookUrl) {
-        this.bookUrl = bookUrl;
+        return "SQL.JPA.Book[ bookId=" + bookId + " ]";
     }
     
 }

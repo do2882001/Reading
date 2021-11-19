@@ -7,8 +7,7 @@ package Server;
 
 import Model.DTO.*;
 
-import SQL.BookJpaController;
-import SQL.JPA.Book;
+
 import SQL.UserJpaController;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,12 +18,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
+import Model.SQL.BookControllerSQL;
+import SQL.BookJpaController;
 import SQL.FeedbackJpaController;
+import SQL.JPA.Book;
 import SQL.JPA.Feedback;
-import SQL.JPA.Listfavorite;
 import SQL.JPA.User;
-import java.awt.List;
 import java.util.ArrayList;
+
+import java.util.List;
 import javax.persistence.Query;
 
 /**
@@ -50,6 +52,7 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         UserJpaController ujc = new UserJpaController(emf);
         UserDTO udto = new UserDTO();
         udto = ujc.login(username, pass);
+        
         if (udto != null) {
             return udto;
         }else return null;
@@ -57,26 +60,26 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
 
     public BookDTO addNewbook(BookDTO dTO) throws RemoteException// add thanh cong tra ve bookdto, that bai tra ve null
     {
-        BookJpaController bjc = new BookJpaController(emf);
-        Book book = MappingDTOtoEntity.bookDTOtoEntity(dTO);
-        Book b = bjc.create(book);
-        BookDTO bdto = MappingDTOtoEntity.bookEnitytoDTO(b);
-        //gọi JPA
-        return bdto;
+//        BookJpaController bjc = new BookJpaController(emf);
+//        Book book = MappingDTOtoEntity.bookDTOtoEntity(dTO);
+//        bjc.create(book);
+//        BookDTO bdto = MappingDTOtoEntity.bookEnitytoDTO(b);
+//        //gọi JPA
+        return null;
     }
 
     public BookDTO editbook(BookDTO dTO) throws RemoteException// add thanh cong tra ve bookdto, that bai tra ve null
     {
-        try {
-            BookJpaController bjc = new BookJpaController(emf);
-            Book book = MappingDTOtoEntity.bookDTOtoEntity(dTO);
-            Book b = bjc.edit(book);
-            BookDTO bdto = MappingDTOtoEntity.bookEnitytoDTO(b);
-            //gọi JPA
-            return bdto;
-        } catch (Exception ex) {
-            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            BookJpaController bjc = new BookJpaController(emf);
+//            Book book = MappingDTOtoEntity.bookDTOtoEntity(dTO);
+//            Book b = bjc.edit(book);
+//            BookDTO bdto = MappingDTOtoEntity.bookEnitytoDTO(b);
+//            //gọi JPA
+//            return bdto;
+//        } catch (Exception ex) {
+//            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         return null;
     }
 
@@ -135,28 +138,26 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
 
     @Override
     public void reComment(String username, String content) throws RemoteException {
-        FeedbackJpaController fjc = new FeedbackJpaController();
-        
-        //fjc.edit(feedback);
+       
     }
 
     @Override
     public void addBookToListFavorite() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     @Override
     public void removeBookFromListFavorite() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     public void changeInfo(UserDTO udto) throws RemoteException {
-        System.out.println(udto.getPhoneNumber());
-        UserJpaController ujc = new UserJpaController();
+        System.out.println("Id : "+udto.getId());
+        UserJpaController ujc = new UserJpaController(emf);
         MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
         User u = mappingDTOtoEntity.userDTOtoUser(udto);
-        System.out.println(u.getPhoneNumber()+"Sdt");
+        
         try {
             ujc.edit(u);
         } catch (Exception ex) {
@@ -181,19 +182,47 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
     }
 
     @Override
+    public List historyFeedback(int userId) throws RemoteException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+        EntityManager em = emf.createEntityManager();
+         
+        Query query = em.createQuery("SELECT f FROM Feedback f WHERE f.userId = :userId");
+        query.setParameter("userId", userId);
+        
+        java.util.List<Feedback> listhistoryFeedback = query.getResultList();
+        
+        java.util.List<FeedbackDTO> list = new ArrayList();
+        for (Feedback entity : listhistoryFeedback) {
+            FeedbackDTO fbDTO= new FeedbackDTO();
+            fbDTO.setFeedBackDate(entity.getFeedBackDate());
+            fbDTO.setDescription(entity.getDescription());
+            fbDTO.setContent(entity.getContent());
+            fbDTO.setUserId(entity.getUserId());
+            fbDTO.setFeedBackId(entity.getFeedBackId());
+            list.add(fbDTO);
+        }
+        return list;
+    }
+
+    @Override
     public java.util.List loadListFavorite(int userId) throws RemoteException {
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
-//        EntityManager em = emf.createEntityManager();
-//        Query query = em.createQuery("SELECT l FROM Listfavorite l  WHERE l.userId = :userId");
-//        query.setParameter("userId", userId);
-//        java.util.List l = query.getResultList();
-//        //Listfavorite category = (Listfavorite) l.get(1);
-//       java.util.List listId = null;
-//        for (int i = 0; i < l.size(); i++) {
-//            Listfavorite listfavorite = (Listfavorite) l.get(i);
-//            listId.add(listfavorite.getBookId());
-//            System.out.println(listfavorite.getBookId());
-//        }
+       
         return null;
+    }
+
+    @Override
+    public BookDTO searchBookDTO(String bookName) throws RemoteException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT b FROM Book b WHERE b.bookName = :bookName");
+        query.setParameter("bookName", bookName);
+        List l = query.getResultList();
+        if (l.size() == 1 ) {
+            Book b = new Book();
+            b = (Book) query.getSingleResult();
+            MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+            BookDTO bookdto = mappingDTOtoEntity.bookEnitytoDTO(b);
+            return bookdto;
+        }else return null;
     }
 }

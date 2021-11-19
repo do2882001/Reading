@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package main.Info;
 
 import Model.DTO.UserDTO;
 import java.util.Date;
@@ -121,6 +121,7 @@ public class AccountInfo {
         this.Username = entity.getUsername();
         this.PhoneNumber = entity.getPhoneNumber();
         this.AvatarUrl = entity.getAvatarUrl();
+        this.Password = entity.getPassword();
     }
     public UserDTO converttoUserDTO(){
         UserDTO udto = new UserDTO();
@@ -131,6 +132,7 @@ public class AccountInfo {
         udto.setPhoneNumber(this.PhoneNumber);
         udto.setUsername(this.Username);
         udto.setId(this.UserId);
+        udto.setPassword(this.Password);
         return udto;
     }
 }

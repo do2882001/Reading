@@ -8,7 +8,7 @@ package Model.DTO;
 
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *

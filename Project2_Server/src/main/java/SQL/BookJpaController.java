@@ -18,7 +18,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Tudt
+ * @author Do_Do
  */
 public class BookJpaController implements Serializable {
 
@@ -27,21 +27,21 @@ public class BookJpaController implements Serializable {
     }
     private EntityManagerFactory emf = null;
 
+    public BookJpaController() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public Book create(Book book) {
+    public void create(Book book) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(book);
             em.getTransaction().commit();
-            em.refresh(book);
-            return book;
-        } catch (Exception e) {
-            return null;
         } finally {
             if (em != null) {
                 em.close();
@@ -49,15 +49,13 @@ public class BookJpaController implements Serializable {
         }
     }
 
-    public Book edit(Book book) throws NonexistentEntityException, Exception {
+    public void edit(Book book) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             book = em.merge(book);
             em.getTransaction().commit();
-            em.refresh(book);
-            return book;
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -140,5 +138,5 @@ public class BookJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

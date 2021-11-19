@@ -6,17 +6,19 @@
 package Server;
 
 
-import SQL.FeedbackJpaController;
+
+import Model.DTO.FeedbackDTO;
 import SQL.JPA.Feedback;
 import SQL.JPA.Listfavorite;
 import SQL.JPA.User;
 import SQL.UserJpaController;
-import SQL.exceptions.NonexistentEntityException;
 import java.awt.List;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NamedQuery;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -73,7 +75,7 @@ public class TestJPA {
 //        user.setPassWord("123123123");
 //        try {
 //            em.getTransaction().begin();
-//            user = em.merge(user);
+//            user = em.meem.getTransaction().begin();rge(user);
 //            em.getTransaction().commit();
 //        } catch (Exception ex) {
 //            String msg = ex.getLocalizedMessage();
@@ -87,16 +89,16 @@ public class TestJPA {
         
         
         
-        
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
 //        EntityManager em = emf.createEntityManager();
 //        Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName and u.passWord = :passWord");
-//        query.setParameter("passWord", "123456789");
+//        query.setParameter("passWord", "12345678");
 //        query.setParameter("userName", "do123456");
 //        
 //        User u = (User) query.getSingleResult();
 //        u.setPassWord("123123123");
 //        
-//        UserJpaController ujc = new UserJpaController();
+//        UserJpaController ujc = new UserJpaController(emf);
 //        ujc.edit(u);
         
        
@@ -130,17 +132,54 @@ public class TestJPA {
 //         java.util.List l = query.getResultList();
 //        Listfavorite category = (Listfavorite) l.get(1);
 //        System.out.println(category.getBookId());
+        
+
+
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+//        EntityManager em = emf.createEntityManager();
+//        Query query = em.createQuery("SELECT l FROM Listfavorite l  WHERE l.userId = :userId");
+//        query.setParameter("userId", 22);
+//        java.util.List l = query.getResultList();
+//        //Listfavorite category = (Listfavorite) l.get(1);
+//       
+//        for (int i = 0; i < l.size(); i++) {
+//            Listfavorite listfavorite = (Listfavorite) l.get(i);
+//           
+//            System.out.println(listfavorite.getBookId());
+//        }
+
+       
+        
+//        
+//        Feedback listhistoryFeedback = (Feedback) query.getResultList();
+//        List listFbDTOs = new List();
+//        
+//        
+//        for (Feedback fb : listhistoryFeedback) {
+//            FeedbackDTO feedbackDTO = mappingDTOtoEntity.feedbacktoFeedbackDto(fb);
+//            listFbDTOs.add(feedbackDTO);
+//            System.out.println("Feedback userId = 0 :" + feedbackDTO.getContent());
+//        }
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
         EntityManager em = emf.createEntityManager();
-        Query query = em.createQuery("SELECT l FROM Listfavorite l  WHERE l.userId = :userId");
-        query.setParameter("userId", 22);
-        java.util.List l = query.getResultList();
-        //Listfavorite category = (Listfavorite) l.get(1);
-       
-        for (int i = 0; i < l.size(); i++) {
-            Listfavorite listfavorite = (Listfavorite) l.get(i);
-           
-            System.out.println(listfavorite.getBookId());
+         
+        Query query = em.createQuery("SELECT f FROM Feedback f WHERE f.userId = :userId");
+        query.setParameter("userId", 1);
+        
+        java.util.List<Feedback> listhistoryFeedback = query.getResultList();
+        
+        java.util.List<FeedbackDTO> list = new ArrayList();
+        for (Feedback entity : listhistoryFeedback) {
+            FeedbackDTO fbDTO= new FeedbackDTO();
+            fbDTO.setFeedBackDate(entity.getFeedBackDate());
+            fbDTO.setDescription(entity.getDescription());
+            fbDTO.setContent(entity.getContent());
+            fbDTO.setUserId(entity.getUserId());
+            fbDTO.setFeedBackId(entity.getFeedBackId());
+            boolean add = list.add(fbDTO);
+        }
+        for (FeedbackDTO fb : list) {
+            System.out.println("Content: " + fb.getContent() );
         }
     }
 }

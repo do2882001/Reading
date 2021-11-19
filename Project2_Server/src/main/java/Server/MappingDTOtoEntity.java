@@ -12,6 +12,7 @@ import Model.DTO.UserDTO;
 import SQL.JPA.Book;
 import SQL.JPA.Feedback;
 import SQL.JPA.User;
+import java.sql.Date;
 
 /**
  *
@@ -52,6 +53,7 @@ public class MappingDTOtoEntity {
             return null;
         }
         UserDTO udto = new UserDTO();
+
         udto.setAddress(entity.getAddress());
         udto.setBirthdate(entity.getBirthdate());
         udto.setGender(entity.getGender());
@@ -60,7 +62,7 @@ public class MappingDTOtoEntity {
         udto.setPhoneNumber(entity.getPhoneNumber());
         udto.setRoleId(entity.getRoleId());
         udto.setAvatarUrl(entity.getAvatarUrl());
-        udto.setId(entity.getRoleId());
+        udto.setId(entity.getUserId());
         udto.setPassword(entity.getPassWord());
         return udto;
     }
@@ -70,6 +72,7 @@ public class MappingDTOtoEntity {
             return null;
         }
         User u = new User();
+        u.setUserId(entity.getId());
         u.setPassWord(entity.getPassword());
         u.setAddress(entity.getAddress());
         u.setBirthdate(entity.getBirthdate());
@@ -93,5 +96,21 @@ public class MappingDTOtoEntity {
         fb.setContent(entity.getContent());
         fb.setDescription(entity.getDescription());
         return fb;
+    }
+     
+     public static FeedbackDTO feedbacktoFeedbackDto(Feedback entity) {
+
+        if (entity == null) {
+            return null;
+        }
+        
+        FeedbackDTO fbDTO = new FeedbackDTO();
+        //java.util.Date utilDate = new java.util.Date(entity.getFeedBackDate().getTime());
+        fbDTO.setFeedBackDate(null);
+        fbDTO.setDescription(entity.getDescription());
+        fbDTO.setContent(entity.getContent());
+        fbDTO.setUserId(entity.getUserId());
+        fbDTO.setFeedBackId(entity.getFeedBackId());
+        return fbDTO;
     }
 }

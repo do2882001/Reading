@@ -147,12 +147,11 @@ public class UserJpaController implements Serializable {
         Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName and u.passWord = :passWord");
         query.setParameter("userName", username);
         query.setParameter("passWord", pass);
-        List result = query.getResultList();
         
-        System.out.println("So phan tu tim dc"+result.size());
-        if (result.size()==1) {
-            User u = new User();
-            u = (User) query.getSingleResult();
+        List l = query.getResultList();
+        
+        if (l.size()==1) {
+            User u = (User) query.getSingleResult();
             MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
             UserDTO udto = new UserDTO();
             udto = mappingDTOtoEntity.userEnitytoDTO(u);

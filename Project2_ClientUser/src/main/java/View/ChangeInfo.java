@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import main.AccountInfo;
+import main.Info.AccountInfo;
 
 /**
  *
@@ -219,6 +219,11 @@ public class ChangeInfo extends javax.swing.JFrame {
         jPanel3.add(btnSubmit, gridBagConstraints);
 
         btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 9;
@@ -311,11 +316,20 @@ public class ChangeInfo extends javax.swing.JFrame {
         
         UserDTO udto = accountInfo.converttoUserDTO();
         try {
+            System.out.println("Pass: "+accountInfo.getPassword());
             adminrIReadingeading.changeInfo(udto);
+            sb.append("The information will be updated on the next login! ");
+            this.setVisible(false);
+            JOptionPane.showMessageDialog(this, sb);
         } catch (RemoteException ex) {
             Logger.getLogger(ChangeInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSubmitActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package Model.DTO;
 
 /**
  *
  * @author Do_Do
  */
-public class IOFile {
+public class ListFavoriteDTO {
     
 }
