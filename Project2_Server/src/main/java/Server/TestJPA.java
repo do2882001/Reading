@@ -62,32 +62,6 @@ public class TestJPA {
 //        em.persist(user);// persirt == insert into , merge = update , remove == delete
 //        em.getTransaction().commit();
 //        em.close();
-
-        
-        
-        // update password
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
-//        EntityManager em = emf.createEntityManager();
-//        Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName and u.passWord = :passWord");
-//        query.setParameter("passWord", "123456789");
-//        query.setParameter("userName", "do123456");
-//        User user = (User) query.getSingleResult();
-//        user.setPassWord("123123123");
-//        try {
-//            em.getTransaction().begin();
-//            user = em.meem.getTransaction().begin();rge(user);
-//            em.getTransaction().commit();
-//        } catch (Exception ex) {
-//            String msg = ex.getLocalizedMessage();
-//            throw ex;
-//        } finally {
-//            if (em != null) {
-//                em.close();
-//            }
-//        }
-        
-        
-        
         
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
 //        EntityManager em = emf.createEntityManager();
@@ -160,27 +134,27 @@ public class TestJPA {
 //            listFbDTOs.add(feedbackDTO);
 //            System.out.println("Feedback userId = 0 :" + feedbackDTO.getContent());
 //        }
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
-        EntityManager em = emf.createEntityManager();
-         
-        Query query = em.createQuery("SELECT f FROM Feedback f WHERE f.userId = :userId");
-        query.setParameter("userId", 1);
-        
-        java.util.List<Feedback> listhistoryFeedback = query.getResultList();
-        
-        java.util.List<FeedbackDTO> list = new ArrayList();
-        for (Feedback entity : listhistoryFeedback) {
-            FeedbackDTO fbDTO= new FeedbackDTO();
-            fbDTO.setFeedBackDate(entity.getFeedBackDate());
-            fbDTO.setDescription(entity.getDescription());
-            fbDTO.setContent(entity.getContent());
-            fbDTO.setUserId(entity.getUserId());
-            fbDTO.setFeedBackId(entity.getFeedBackId());
-            boolean add = list.add(fbDTO);
-        }
-        for (FeedbackDTO fb : list) {
-            System.out.println("Content: " + fb.getContent() );
-        }
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+//        EntityManager em = emf.createEntityManager();
+//         
+//        Query query = em.createQuery("SELECT f FROM Feedback f WHERE f.userId = :userId");
+//        query.setParameter("userId", 1);
+//        
+//        java.util.List<Feedback> listhistoryFeedback = query.getResultList();
+//        
+//        java.util.List<FeedbackDTO> list = new ArrayList();
+//        for (Feedback entity : listhistoryFeedback) {
+//            FeedbackDTO fbDTO= new FeedbackDTO();
+//            fbDTO.setFeedBackDate(entity.getFeedBackDate());
+//            fbDTO.setDescription(entity.getDescription());
+//            fbDTO.setContent(entity.getContent());
+//            fbDTO.setUserId(entity.getUserId());
+//            fbDTO.setFeedBackId(entity.getFeedBackId());
+//            boolean add = list.add(fbDTO);
+//        }
+//        for (FeedbackDTO fb : list) {
+//            System.out.println("Content: " + fb.getContent() );
+//        }
     }
 }
 

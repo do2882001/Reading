@@ -634,14 +634,20 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnSendFeedBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendFeedBackActionPerformed
+        StringBuilder sb = new StringBuilder();
+        if(txtContent.getText().equals("")){
+            sb.append("Enter content!");
+            JOptionPane.showMessageDialog(this, sb);
+            return;
+        }
         try {
             // TODO add your handling code here:
-            adminrIReadingeading.sendFeedBack(accountInfo.getUserId() , txtContent.getText());
+            adminrIReadingeading.sendFeedBack(accountInfo.getUserId() , txtContent.getText() , java.time.LocalDate.now());
         } catch (RemoteException ex) {
             Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        StringBuilder sb = new StringBuilder();
+        
         sb.append("Thanks for your respond!");
         JOptionPane.showMessageDialog(this, sb);
         txtContent.setText("");
@@ -649,7 +655,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void txtChangePassWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtChangePassWordActionPerformed
         // TODO add your handling code here:
-        ChangePassWord changePassWord = new ChangePassWord();
+        ChangePassWord changePassWord = new ChangePassWord(accountInfo.getUserId());
         changePassWord.setVisible(true);
     }//GEN-LAST:event_txtChangePassWordActionPerformed
 

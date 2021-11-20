@@ -11,6 +11,7 @@ import Model.DTO.BookDTO;
 import Model.DTO.FeedbackDTO;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public interface IReading extends Remote {
     boolean forgotPassWord_Change(String username , String phonenumber, String newpassword )throws RemoteException;
     void changeInfo(UserDTO udto)throws RemoteException;
     
-    void sendFeedBack(int UserId, String Content)throws RemoteException;
+    void sendFeedBack(int UserId, String Content, LocalDate localDate)throws RemoteException;
     void reComment(String username , String content)throws RemoteException;
     
     BookDTO addNewbook(BookDTO dTO) throws RemoteException;
@@ -37,4 +38,6 @@ public interface IReading extends Remote {
     
     List<FeedbackDTO> historyFeedback(int user)throws RemoteException;
     BookDTO searchBookDTO(String bookName)throws RemoteException;
+    
+    void changePassWord(int UserId, String PassWord)throws RemoteException;
 }

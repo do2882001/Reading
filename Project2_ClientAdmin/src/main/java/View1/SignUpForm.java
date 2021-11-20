@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View1;
 
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
@@ -394,7 +394,7 @@ public class SignUpForm extends javax.swing.JFrame {
         UserDTO udto = new UserDTO();
         udto.setUsername(txtUsername.getText());
         udto.setPassword(txtPassWord.getText());
-        udto.setRoleId(2);//UserAccount
+        udto.setRoleId(1);//Adminaccount
         udto.setAddress(txtAddress.getText());
         LocalDate ld = dateBirth.getDate();
         java.util.Date date = java.sql.Date.valueOf(ld);
@@ -409,11 +409,12 @@ public class SignUpForm extends javax.swing.JFrame {
             boolean singup = adminrIReadingeading.signup(udto);
             System.out.println(udto.getPassword());
             if (singup == true) {
-                sb.append("Done!");
+                sb.append("Sign Up Success!");
                 JOptionPane.showMessageDialog(this, sb);
                 this.setVisible(false);
+                
             }else{
-                sb.append("Fail!");
+                sb.append("Username already exists!");
                 JOptionPane.showMessageDialog(this, sb);
             }
             
@@ -455,6 +456,8 @@ public class SignUpForm extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SignUpForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

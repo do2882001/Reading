@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View1;
 
-import main.Info.AccountInfo;
+
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
 
@@ -16,6 +16,7 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import main.AccountInfo;
 
 /**
  *
@@ -188,7 +189,7 @@ public class LoginForm extends javax.swing.JFrame {
             UserDTO u = new UserDTO();
             u = adminrIReadingeading.login(txtUserName.getText(), txtPassWord.getText());
             
-            if (u==null || u.getRoleId()== 1) {
+            if (u==null || u.getRoleId()== 2) {
                  sb.append("Unsuccessful!");
                 JOptionPane.showMessageDialog(this, sb);
                 txtPassWord.setText("");
@@ -198,7 +199,8 @@ public class LoginForm extends javax.swing.JFrame {
                 System.out.println("Id: "+ accountInfo.getUserId());
                 sb.append("Successfully!");
                 JOptionPane.showMessageDialog(this, sb);
-                HomePage homePage = new HomePage(accountInfo);
+                HomePageAdmin homePage = new HomePageAdmin(accountInfo);
+                System.out.println("acc : "+ accountInfo.getUsername());
                 homePage.setVisible(true);
                 this.setVisible(false);
             }
@@ -210,7 +212,6 @@ public class LoginForm extends javax.swing.JFrame {
     private void btnCreateUserAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserAccountActionPerformed
         // TODO add your handling code here:
         SignUpForm signUp = new SignUpForm();
-        this.setVisible(false);
         signUp.setVisible(true);
     }//GEN-LAST:event_btnCreateUserAccountActionPerformed
 
@@ -240,6 +241,7 @@ public class LoginForm extends javax.swing.JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
         
         //</editor-fold>

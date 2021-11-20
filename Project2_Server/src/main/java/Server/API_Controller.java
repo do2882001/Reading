@@ -24,7 +24,10 @@ import SQL.FeedbackJpaController;
 import SQL.JPA.Book;
 import SQL.JPA.Feedback;
 import SQL.JPA.User;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.List;
 import javax.persistence.Query;
@@ -84,7 +87,7 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
     }
 
     public void persist(Object object) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_Project2_Server_jar_1.0PU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         try {
@@ -102,12 +105,12 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         UserJpaController ujc = new UserJpaController(emf);
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT u FROM User u WHERE u.userName = :userName");
-        query.setParameter("userName", userDTO.getName());
-
+        query.setParameter("userName", userDTO.getUsername());
+        System.out.println(userDTO.getUsername());
         MappingDTOtoEntity mde = new MappingDTOtoEntity();
         User u = mde.userDTOtoUser(userDTO);
-        System.out.println(u.getPassWord()+" Pass");
-        if (query.getResultList().isEmpty()) {
+        
+        if (query.getResultList().size() == 0) {
             System.out.println("Heloo");
             em.getTransaction().begin();
             em.persist(u);// persirt == insert into , merge = update , remove == delete
@@ -166,15 +169,16 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
     }
 
     @Override
-    public void sendFeedBack(int UserId, String Content) throws RemoteException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
+    public void sendFeedBack(int UserId, String Content , LocalDate localDate) throws RemoteException {
          EntityManager em = emf.createEntityManager();
          
         Feedback fbFeedback = new Feedback();
-        
+        Date date = java.util.Date.from(localDate.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
         fbFeedback.setContent(Content);
         fbFeedback.setUserId(UserId);
-        
+        fbFeedback.setFeedBackDate(date);
         em.getTransaction().begin();
         em.persist(fbFeedback);// persirt == insert into , merge = update , remove == delete
         em.getTransaction().commit();
@@ -183,7 +187,6 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
 
     @Override
     public List historyFeedback(int userId) throws RemoteException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
         EntityManager em = emf.createEntityManager();
          
         Query query = em.createQuery("SELECT f FROM Feedback f WHERE f.userId = :userId");
@@ -212,7 +215,6 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
 
     @Override
     public BookDTO searchBookDTO(String bookName) throws RemoteException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
         EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT b FROM Book b WHERE b.bookName = :bookName");
         query.setParameter("bookName", bookName);
@@ -224,5 +226,22 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
             BookDTO bookdto = mappingDTOtoEntity.bookEnitytoDTO(b);
             return bookdto;
         }else return null;
+    }
+
+    @Override
+    public void changePassWord(int UserId, String PassWord) throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT u FROM User u WHERE u.userId = :UserId");
+        query.setParameter("UserId",UserId);
+        User u = (User) query.getSingleResult();
+        u.setPassWord(PassWord);
+        System.out.println("NewPass: "+ u.getPassWord() + "Id: "+u.getUserId());
+        
+        UserJpaController ujc = new UserJpaController(emf);
+        try {
+            ujc.edit(u);
+        } catch (Exception ex) {
+            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
