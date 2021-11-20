@@ -6,7 +6,6 @@
 package SQL.JPA;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,14 +16,12 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
  * @author Do_Do
  */
-@Entity(name="Book")
+@Entity
 @Table(name = "book")
 @NamedQueries({
     @NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b"),
@@ -55,11 +52,8 @@ public class Book implements Serializable {
     @Basic(optional = false)
     @Column(name = "CategoryId")
     private int categoryId;
-    @Basic(optional = false)
     @Column(name = "ReleaseDate")
-    @Temporal(TemporalType.DATE)
-    private Date releaseDate;
-    @Basic(optional = false)
+    private String releaseDate;
     @Column(name = "Country")
     private String country;
     @Column(name = "Description")
@@ -80,13 +74,11 @@ public class Book implements Serializable {
         this.bookId = bookId;
     }
 
-    public Book(Integer bookId, String bookName, String type, int categoryId, Date releaseDate, String country, byte[] posterUrl, byte[] bookUrl) {
+    public Book(Integer bookId, String bookName, String type, int categoryId, byte[] posterUrl, byte[] bookUrl) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.type = type;
         this.categoryId = categoryId;
-        this.releaseDate = releaseDate;
-        this.country = country;
         this.posterUrl = posterUrl;
         this.bookUrl = bookUrl;
     }
@@ -131,11 +123,11 @@ public class Book implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 

@@ -20,26 +20,43 @@ public class BookDTO implements Serializable {
     private int BookId;
     private String BookName;
     private String Type;
-    private Year ReleaseDate;
-    private Blob PosterUrl;
-    private Blob BookUrl;
-    private Blob AvatarUrl;
+    private String ReleaseDate;
+    private byte [] PosterUrl;
+    private byte [] BookUrl;
     private int CategoryId;
     private int AuthorId;
+    private String Country;
+    private String Description;
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
+
+    public String getCountry() {
+        return Country;
+    }
+
+    public void setCountry(String Country) {
+        this.Country = Country;
+    }
 
     public BookDTO() {
     }
 
-    public BookDTO(int BookId, String BookName, String Type, Year ReleaseDate, Blob PosterUrl, Blob BookUrl, Blob AvatarUrl, int CategoryId, int AuthorId) {
+    public BookDTO(int BookId, String BookName, String Type, String ReleaseDate, byte [] PosterUrl, byte [] BookUrl, int CategoryId, int AuthorId,String Country) {
         this.BookId = BookId;
         this.BookName = BookName;
         this.Type = Type;
         this.ReleaseDate = ReleaseDate;
         this.PosterUrl = PosterUrl;
         this.BookUrl = BookUrl;
-        this.AvatarUrl = AvatarUrl;
         this.CategoryId = CategoryId;
         this.AuthorId = AuthorId;
+        this.Country = Country;
     }
 
     public int getBookId() {
@@ -54,20 +71,16 @@ public class BookDTO implements Serializable {
         return Type;
     }
 
-    public Year getReleaseDate() {
+    public String getReleaseDate() {
         return ReleaseDate;
     }
 
-    public Blob getPosterUrl() {
+    public byte [] getPosterUrl() {
         return PosterUrl;
     }
 
-    public Blob getBookUrl() {
+    public byte [] getBookUrl() {
         return BookUrl;
-    }
-
-    public Blob getAvatarUrl() {
-        return AvatarUrl;
     }
 
     public int getCategoryId() {
@@ -90,20 +103,16 @@ public class BookDTO implements Serializable {
         this.Type = Type;
     }
 
-    public void setReleaseDate(Year ReleaseDate) {
+    public void setReleaseDate(String ReleaseDate) {
         this.ReleaseDate = ReleaseDate;
     }
 
-    public void setPosterUrl(Blob PosterUrl) {
+    public void setPosterUrl(byte [] PosterUrl) {
         this.PosterUrl = PosterUrl;
     }
 
-    public void setBookUrl(Blob BookUrl) {
+    public void setBookUrl(byte [] BookUrl) {
         this.BookUrl = BookUrl;
-    }
-
-    public void setAvatarUrl(Blob AvatarUrl) {
-        this.AvatarUrl = AvatarUrl;
     }
 
     public void setCategoryId(int CategoryId) {
@@ -113,4 +122,5 @@ public class BookDTO implements Serializable {
     public void setAuthorId(int AuthorId) {
         this.AuthorId = AuthorId;
     }
+    
 }

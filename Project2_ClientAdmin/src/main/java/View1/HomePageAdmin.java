@@ -6,13 +6,27 @@
 package View1;
 
 
+import Admin.InterfaceAdmin.IReading;
+import Model.DTO.BookDTO;
+import Model.DTO.UserDTO;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import main.AccountInfo;
 
 /**
@@ -21,17 +35,21 @@ import main.AccountInfo;
  */
 public class HomePageAdmin extends javax.swing.JFrame {
     AccountInfo accountInfo;
+    IReading adminrIReadingeading;
+    byte[] book;
+    byte[] poster;
     /**
      * Creates new form HomePageAdmin
      */
-    public HomePageAdmin(AccountInfo a) {
+    public HomePageAdmin(AccountInfo a) throws NotBoundException, MalformedURLException, RemoteException {
         initComponents();
+        adminrIReadingeading = (IReading) Naming.lookup("rmi://localhost:7898/reading");
         accountInfo = a;
         loadingInfomation();
     }
 
     private HomePageAdmin() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        initComponents();
     }
     void loadingInfomation(){
         txtFulName.setText(accountInfo.getName());
@@ -54,6 +72,7 @@ public class HomePageAdmin extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -125,25 +144,147 @@ public class HomePageAdmin extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("List Book     ", jPanel1);
 
+        jPanel8.setLayout(new java.awt.GridBagLayout());
+
         jLabel2.setText("Book name");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(39, 32, 0, 0);
+        jPanel8.add(jLabel2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 112;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(36, 11, 0, 0);
+        jPanel8.add(txtBookname, gridBagConstraints);
 
         jLabel3.setText("AuthorId");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 32, 0, 0);
+        jPanel8.add(jLabel3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 112;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 11, 0, 0);
+        jPanel8.add(txtAuthor, gridBagConstraints);
 
         jLabel9.setText("Type");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.ipadx = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 32, 0, 0);
+        jPanel8.add(jLabel9, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 98;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 9, 0, 0);
+        jPanel8.add(txtCategory, gridBagConstraints);
 
         txtType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tiểu thuyêt", "Truyện tranh", "Truyện ngắn" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.ipadx = 29;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 11, 0, 0);
+        jPanel8.add(txtType, gridBagConstraints);
 
         jLabel10.setText("CategoryId");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 31, 0, 0);
+        jPanel8.add(jLabel10, gridBagConstraints);
 
         jLabel11.setText("Release Year");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(39, 31, 0, 0);
+        jPanel8.add(jLabel11, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 98;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(36, 9, 0, 0);
+        jPanel8.add(txtYear, gridBagConstraints);
 
         jLabel12.setText("Country");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 31, 0, 0);
+        jPanel8.add(jLabel12, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 98;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 9, 0, 0);
+        jPanel8.add(txtCountry, gridBagConstraints);
 
         jLabel13.setText("Description");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 14;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 32, 0, 0);
+        jPanel8.add(jLabel13, gridBagConstraints);
 
         txtDescription.setColumns(20);
         txtDescription.setRows(5);
         jScrollPane2.setViewportView(txtDescription);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 342;
+        gridBagConstraints.ipady = 70;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 12, 0, 49);
+        jPanel8.add(jScrollPane2, gridBagConstraints);
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -151,6 +292,12 @@ public class HomePageAdmin extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(45, 5, 21, 0);
+        jPanel8.add(btnAdd, gridBagConstraints);
 
         btnBookUrl.setText("Add Book");
         btnBookUrl.addActionListener(new java.awt.event.ActionListener() {
@@ -158,6 +305,12 @@ public class HomePageAdmin extends javax.swing.JFrame {
                 btnBookUrlActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 11, 0, 0);
+        jPanel8.add(btnBookUrl, gridBagConstraints);
 
         btnPosterUrl.setText("Add Poster");
         btnPosterUrl.addActionListener(new java.awt.event.ActionListener() {
@@ -165,116 +318,34 @@ public class HomePageAdmin extends javax.swing.JFrame {
                 btnPosterUrlActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(12, 26, 0, 0);
+        jPanel8.add(btnPosterUrl, gridBagConstraints);
 
         labelPoster.setText("Image path");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 22;
+        gridBagConstraints.ipady = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 31, 0, 0);
+        jPanel8.add(labelPoster, gridBagConstraints);
 
         labelBook.setText("PDF path");
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(labelBook, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addComponent(btnBookUrl)
-                        .addGap(70, 70, 70)
-                        .addComponent(labelPoster, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(btnPosterUrl))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(233, 233, 233)
-                        .addComponent(btnAdd))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(43, 43, 43)
-                                .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel8Layout.createSequentialGroup()
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtBookname))
-                                    .addGroup(jPanel8Layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(21, 21, 21)
-                                        .addComponent(txtAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(31, 31, 31)
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel8Layout.createSequentialGroup()
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(15, 15, 15)
-                                        .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel8Layout.createSequentialGroup()
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(45, 45, 45)
-                                        .addComponent(txtCountry)))))))
-                .addContainerGap(49, Short.MAX_VALUE))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtBookname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel11))))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel12))))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10))))
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnBookUrl)
-                            .addComponent(btnPosterUrl)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelBook, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelPoster, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addComponent(btnAdd)
-                .addGap(21, 21, 21))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 13;
+        gridBagConstraints.ipady = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(15, 32, 0, 0);
+        jPanel8.add(labelBook, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -599,55 +670,79 @@ public class HomePageAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-//        BookDTO bdto = new BookDTO();
-//        bdto.setBookName(txtBookname.getText());
-//        bdto.setType(txtType.getSelectedItem().toString());
-//        bdto.setReleasedYear(Integer.valueOf(txtYear.getText()));
-//        bdto.setAuthorId(Integer.parseInt(txtAuthor.getText()));
-//        bdto.setCountry(txtCountry.getText());
-//        bdto.setCategoryId(Integer.parseInt(txtCategory.getText()));
-//        bdto.setPosterUrl(posterByte);
-//        bdto.setBookUrl(bookByte);
-//
-//        try {
-//            IReading addBookAction = (IReading) Naming.lookup("rmi://localhost:7898/reading");
-//            addBookAction.addNewbook(bdto);
-//            System.out.println("");
-//        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-//            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        StringBuilder sb = new StringBuilder();
+        BookDTO bdto = new BookDTO();
+        bdto.setAuthorId(Integer.parseInt(txtAuthor.getText()));
+        bdto.setBookName(txtBookname.getText());
+        bdto.setBookUrl(book);
+        bdto.setCategoryId(Integer.parseInt(txtCategory.getText()));
+        bdto.setPosterUrl(poster);
+        bdto.setReleaseDate(txtYear.getText());
+        bdto.setType(String.valueOf(txtType.getSelectedItem()));
+        bdto.setCountry(txtCountry.getText());
+        bdto.setDescription(txtDescription.getText());
+        
+        try {
+            if (adminrIReadingeading.addNewbook(bdto)==true) {
+                sb.append("Success!");
+                JOptionPane.showMessageDialog(this, sb);
+                txtAuthor.setText("");
+                txtAddress.setText("");
+                txtBookname.setText("");
+                txtCategory.setText("");
+                txtYear.setText("");
+                txtCountry.setText("");
+                txtDescription.setText("");
+                book = null;
+                poster = null;
+            }else {
+                sb.append("Fail!");
+                JOptionPane.showMessageDialog(this, sb);
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(HomePageAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnBookUrlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookUrlActionPerformed
-//        JFileChooser  bookFileChooser = new JFileChooser();
-//        bookFileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-//        FileNameExtensionFilter bookFilter = new FileNameExtensionFilter("book file", "pdf");
-//        bookFileChooser.setFileFilter(bookFilter);
-//        bookFileChooser.setMultiSelectionEnabled(false);
-//
-//        int x = bookFileChooser.showDialog(this, "Choose File");
-//        if(x == JFileChooser.APPROVE_OPTION) {
-//            File bookFile = bookFileChooser.getSelectedFile();
-//            bookByte = new byte[(int) bookFile.length()];
-//            labelBook.setText(bookFile.getAbsolutePath());
-//        }
+        JFileChooser  bookFileChooser = new JFileChooser();
+        bookFileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        FileNameExtensionFilter bookFilter = new FileNameExtensionFilter("book file", "pdf");
+        
+        bookFileChooser.setFileFilter(bookFilter);
+        bookFileChooser.setMultiSelectionEnabled(false);
 
+        int x = bookFileChooser.showDialog(this, "Choose File");
+        if(x == JFileChooser.APPROVE_OPTION) {
+            Path p = Paths.get(bookFileChooser.getSelectedFile().getAbsolutePath());
+            try {
+                book = Files.readAllBytes(p);
+                labelBook.setText(bookFileChooser.getSelectedFile().getAbsolutePath());
+            } catch (IOException ex) {
+                Logger.getLogger(HomePageAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnBookUrlActionPerformed
 
     private void btnPosterUrlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPosterUrlActionPerformed
-//        JFileChooser  posterFileChooser = new JFileChooser();
-//        posterFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-//        posterFileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-//        FileNameExtensionFilter posterFilter = new FileNameExtensionFilter("book file", "png", "jpg", "jpeg");
-//        posterFileChooser.setFileFilter(posterFilter);
-//        posterFileChooser.setMultiSelectionEnabled(false);
-//
-//        int x = posterFileChooser.showDialog(this, "Choose File");
-//        if(x == JFileChooser.APPROVE_OPTION) {
-//            File posterFile = posterFileChooser.getSelectedFile();
-//            posterByte = new byte[(int)posterFile.length()];
-//            labelPoster.setText(posterFile.getAbsolutePath());
-//        }
+        JFileChooser  posterFileChooser = new JFileChooser();
+        posterFileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        posterFileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        FileNameExtensionFilter posterFilter = new FileNameExtensionFilter("book file", "png", "jpg", "jpeg");
+        posterFileChooser.setFileFilter(posterFilter);
+        posterFileChooser.setMultiSelectionEnabled(false);
+
+        int x = posterFileChooser.showDialog(this, "Choose File");
+        if(x == JFileChooser.APPROVE_OPTION) {
+            
+            Path p = Paths.get(posterFileChooser.getSelectedFile().getAbsolutePath());
+            try {
+                poster = Files.readAllBytes(p);
+                labelPoster.setText(posterFileChooser.getSelectedFile().getAbsolutePath());
+            } catch (IOException ex) {
+                Logger.getLogger(HomePageAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnPosterUrlActionPerformed
 
     /**

@@ -61,14 +61,22 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         }else return null;
     }
 
-    public BookDTO addNewbook(BookDTO dTO) throws RemoteException// add thanh cong tra ve bookdto, that bai tra ve null
-    {
-//        BookJpaController bjc = new BookJpaController(emf);
-//        Book book = MappingDTOtoEntity.bookDTOtoEntity(dTO);
-//        bjc.create(book);
-//        BookDTO bdto = MappingDTOtoEntity.bookEnitytoDTO(b);
-//        //gọi JPA
-        return null;
+    public boolean addNewbook(BookDTO dTO) throws RemoteException// add thanh cong tra ve bookdto, that bai tra ve null
+    {   
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT b FROM Book b WHERE b.bookName = :bookName");
+        query.setParameter("bookName", dTO.getBookName());
+        List l = query.getResultList();
+        if (l.size()<1) {
+            MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+            Book book = mappingDTOtoEntity.bookDTOtoEntity(dTO);
+
+            BookJpaController bjc = new BookJpaController(emf);
+            System.out.println("Name : " +  book.getBookName());
+            bjc.create(book);
+       
+        return true;
+        }else return false;
     }
 
     public BookDTO editbook(BookDTO dTO) throws RemoteException// add thanh cong tra ve bookdto, that bai tra ve null

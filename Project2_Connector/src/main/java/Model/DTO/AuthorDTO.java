@@ -15,6 +15,14 @@ public class AuthorDTO implements Serializable{
     private Date Birthdate;
     private String Country;
     private String Description;
+    
+    public AuthorDTO(int id, String Name, Date Birthdate, String Country, String Description) {
+        this.id = id;
+        this.Name = Name;
+        this.Birthdate = Birthdate;
+        this.Country = Country;
+        this.Description = Description;
+    }
 
     public String getName() {
         return Name;

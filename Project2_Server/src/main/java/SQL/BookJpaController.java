@@ -21,11 +21,10 @@ import javax.persistence.criteria.Root;
  * @author Do_Do
  */
 public class BookJpaController implements Serializable {
-
+private EntityManagerFactory emf = null;
     public BookJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
     public BookJpaController() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

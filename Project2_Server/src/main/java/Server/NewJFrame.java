@@ -92,69 +92,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ReadingJPA");
-        EntityManager em = emf.createEntityManager();
-//        Query query = em.createQuery("SELECT b FROM Book b  WHERE b.bookId = :bookId");
-//        query.setParameter("bookId", 4);
-//        Book book = (Book) query.getSingleResult();
-//       
-//        byte[] initialArray = book.getBookUrl();
-//        if (initialArray.equals("")) {
-//            System.out.println("Empty");
-//        }else{System.out.println("No empty");}
-//        InputStream targetStream;
-//        
-//        try {
-//            targetStream =  new ByteArrayInputStream(initialArray);
-//            SwingController control=new SwingController();
-//            SwingViewBuilder factry=new SwingViewBuilder(control);
-//            JPanel veiwerCompntpnl=factry.buildViewerPanel();
-//            ComponentKeyBinding.install(control, veiwerCompntpnl);
-//            control.getDocumentViewController().setAnnotationCallback(
-//                    new org.icepdf.ri.common.MyAnnotationCallback(
-//                    control.getDocumentViewController()));
-////                   control.openDocument(file);
-//            control.openDocument(targetStream, "", "");
-//        jScrollPane1.setViewportView(veiwerCompntpnl); 
-//        } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(this,"Cannot Load Pdf");
-//        }
-            
-            File file = new File("E:\\do.pdf");
-            FileInputStream fis;
-        try {
-            fis = new FileInputStream(file);
-            byte[] data = new byte[(int) file.length()];
-            fis.read(data);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            data = bos.toByteArray();
-            if (data.equals("")) {
-                
-                System.out.println("Empty");
-                return;
-            }else {
-                System.out.println("No empty");
-                System.out.println("Data" + data);
-            }
-            Book book = new Book();
-            
-            book.setAuthorId(1);
-            book.setBookName("Naruto");
-            book.setType("Comic");
-            book.setCategoryId(1);
-            book.setCountry("VN");
-            book.setBookUrl(data);
-            book.setPosterUrl(data);
-            
-            em.getTransaction().begin();
-            em.persist(book);
-            em.getTransaction().commit();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -28,9 +28,13 @@ public class MappingDTOtoEntity {
         Book book = new Book();
         book.setAuthorId(dTO.getAuthorId());
         book.setBookName(dTO.getBookName());
-//        book.setBookUrl(dTO.getBookUrl());//convert sang mang byte
+        book.setBookUrl(dTO.getBookUrl());
         book.setCategoryId(dTO.getCategoryId());
-        ///vv.v..v
+        book.setPosterUrl(dTO.getPosterUrl());
+        book.setReleaseDate(dTO.getReleaseDate());
+        book.setType(dTO.getType());
+        book.setCountry(dTO.getCountry());
+        book.setDescription(dTO.getDescription());
         return book;
     }
 
