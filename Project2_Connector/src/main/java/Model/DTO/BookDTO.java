@@ -7,8 +7,7 @@ package Model.DTO;
 
 
 import java.io.Serializable;
-import java.sql.Blob;
-import java.time.Year;
+
 
 
 /**
@@ -27,6 +26,15 @@ public class BookDTO implements Serializable {
     private int AuthorId;
     private String Country;
     private String Description;
+     String AuthorName;
+
+    public void setAuthorName(String AuthorName) {
+        this.AuthorName = AuthorName;
+    }
+
+    public String getAuthorName() {
+        return AuthorName;
+    }
 
     public String getDescription() {
         return Description;

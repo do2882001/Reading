@@ -7,6 +7,7 @@ package Model.DTO;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class UserDTO implements Serializable{
     private int Id;
@@ -20,7 +21,6 @@ public class UserDTO implements Serializable{
     private byte[] AvatarUrl;
     private int roleId;
 
-//    private ArrayList<FeedbackDTO> FeedbackList;
     
     public UserDTO(){
     }

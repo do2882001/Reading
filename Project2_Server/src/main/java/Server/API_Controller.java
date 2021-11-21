@@ -21,9 +21,13 @@ import Model.DTO.UserDTO;
 import Model.SQL.BookControllerSQL;
 import SQL.BookJpaController;
 import SQL.FeedbackJpaController;
+import SQL.JPA.Author;
 import SQL.JPA.Book;
 import SQL.JPA.Feedback;
+import SQL.JPA.Listfavorite;
 import SQL.JPA.User;
+import SQL.ListfavoriteJpaController;
+import com.sun.org.apache.bcel.internal.generic.FALOAD;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -153,8 +157,25 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
     }
 
     @Override
-    public void addBookToListFavorite() throws RemoteException {
-       
+    public boolean addBookToListFavorite(BookDTO bdto, int userId) throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        
+        Query query = em.createQuery("SELECT l FROM Listfavorite l WHERE l.bookId = :bookId");
+        query.setParameter("bookId", bdto.getBookId());
+        java.util.List<Listfavorite> favorites = query.getResultList();
+        boolean flag = false;
+        for (Listfavorite l : favorites) {
+            if (l== null || l.getUserId() != userId) {
+                Listfavorite listfavorite = new Listfavorite();
+                listfavorite.setBookId(bdto.getBookId());
+                listfavorite.setUserId(userId);
+                ListfavoriteJpaController ljc = new ListfavoriteJpaController(emf);
+                ljc.create(listfavorite);
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     }
 
     @Override
@@ -217,8 +238,33 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
 
     @Override
     public java.util.List loadListFavorite(int userId) throws RemoteException {
-       
-        return null;
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT l FROM Listfavorite l WHERE l.userId = :userId");
+        query.setParameter("userId", userId);
+        java.util.List<Listfavorite> favorites = query.getResultList();
+        java.util.List<BookDTO> list = new ArrayList();
+        for (Listfavorite l : favorites) {
+            System.out.println("Liss" + l.getBookId());
+            
+            Query query1 = em.createQuery("SELECT b FROM Book b WHERE b.bookId = :BookId");
+            query1.setParameter("BookId", l.getBookId());
+            Book b = (Book) query1.getSingleResult();
+            
+            Query query2 = em.createQuery("SELECT a FROM Author a WHERE a.authorId = :authorId");
+            query2.setParameter("authorId", b.getAuthorId());
+            Author a = (Author) query2.getSingleResult();
+            
+            BookDTO bdto = new BookDTO();
+            MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+            bdto = mappingDTOtoEntity.bookEnitytoDTO(b);
+            bdto.setAuthorName(a.getAuthorName());
+            
+            
+            list.add(bdto);
+            System.out.println("Name "+bdto.getBookName());
+        }
+        
+        return list;
     }
 
     @Override

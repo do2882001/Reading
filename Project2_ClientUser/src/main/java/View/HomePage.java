@@ -7,6 +7,7 @@ package View;
 
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.BookDTO;
+import Model.DTO.FeedbackDTO;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -28,7 +29,7 @@ public class HomePage extends javax.swing.JFrame {
     static AccountInfo accountInfo;
     IReading adminrIReadingeading;
     List<BookDTO> listfavorite ; 
-    
+    DefaultTableModel tbl ;
     
     //private List
     DefaultTableModel tblDefaultTableModel;
@@ -61,11 +62,23 @@ public class HomePage extends javax.swing.JFrame {
         LocalDate date = new java.sql.Date(accountInfo.getBirthdate().getTime()).toLocalDate();
         dateBirth.setDate(date);
     }
-    void loadFavoriteBook() throws RemoteException{
-            tblDefaultTableModel= new DefaultTableModel();
-            tblDefaultTableModel.setColumnIdentifiers(columHeader);
+    void loadFavoriteBook() throws RemoteException, NotBoundException, MalformedURLException{
+            System.out.println(accountInfo.getUserId());
+            listfavorite = adminrIReadingeading.loadListFavorite(accountInfo.getUserId());
             
-            jTable1.setModel(tblDefaultTableModel);
+            tbl = new DefaultTableModel();
+            tbl.setColumnIdentifiers(new String[]{"Number","BookName"});
+            tbl.setRowCount(0);
+            int count = 0;
+            for (BookDTO bdto : listfavorite) {
+                count++;
+                String[] row = new String[]{
+                    String.valueOf(count),
+                    bdto.getBookName().toString()
+                };
+                tbl.addRow(row);
+            }
+            tblListFavorite.setModel(tbl);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,7 +112,7 @@ public class HomePage extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblListFavorite = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -326,7 +339,7 @@ public class HomePage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Category       ", jPanel2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblListFavorite.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -337,7 +350,12 @@ public class HomePage extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblListFavorite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblListFavoriteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblListFavorite);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -680,6 +698,24 @@ public class HomePage extends javax.swing.JFrame {
         //adminrIReadingeading.
     }//GEN-LAST:event_btnSearchActionPerformed
 
+    private void tblListFavoriteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblListFavoriteMouseClicked
+        // TODO add your handling code here:
+        tblListFavorite.getSelectedRow();
+        BookDTO bookDTO = listfavorite.get(tblListFavorite.getSelectedRow());
+        DisplayBook displayBook;
+        try {
+            
+            displayBook = new DisplayBook(bookDTO, accountInfo.getUserId());
+            displayBook.setVisible(true);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tblListFavoriteMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -751,12 +787,12 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbBookName;
     private javax.swing.JLabel lbPoster;
     private javax.swing.JRadioButton rdoFeMale;
     private javax.swing.JRadioButton rdoMale;
+    private javax.swing.JTable tblListFavorite;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JButton txtChangePassWord;
     private javax.swing.JTextArea txtContent;

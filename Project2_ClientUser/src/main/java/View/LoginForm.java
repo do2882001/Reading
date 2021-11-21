@@ -198,6 +198,7 @@ public class LoginForm extends javax.swing.JFrame {
                 System.out.println("Id: "+ accountInfo.getUserId());
                 sb.append("Successfully!");
                 JOptionPane.showMessageDialog(this, sb);
+                System.out.println("Alo");
                 HomePage homePage = new HomePage(accountInfo);
                 homePage.setVisible(true);
                 this.setVisible(false);

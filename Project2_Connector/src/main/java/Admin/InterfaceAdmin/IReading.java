@@ -31,7 +31,7 @@ public interface IReading extends Remote {
     void reComment(String username , String content)throws RemoteException;
     
     boolean addNewbook(BookDTO dTO) throws RemoteException;
-    void addBookToListFavorite()throws RemoteException;
+    boolean addBookToListFavorite(BookDTO bdto, int userId)throws RemoteException;
     
     void removeBookFromListFavorite()throws RemoteException;
     java.util.List loadListFavorite(int userId)throws RemoteException;

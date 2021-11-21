@@ -44,11 +44,16 @@ public class MappingDTOtoEntity {
             return null;
         }
         BookDTO book = new BookDTO();
-//        book.setAuthor(entity.getAuthorId());//tu Author ID goij jPA laay ve  Author xong tryen vao day
+        book.setBookId(entity.getBookId());
+        book.setAuthorId(entity.getAuthorId());
         book.setBookName(entity.getBookName());
-//        book.setBookUrl(dTO.getBookUrl());//convert sang mang byte
+        book.setBookUrl(entity.getBookUrl());
         book.setCategoryId(entity.getCategoryId());
-        ///vv.v..v
+        book.setPosterUrl(entity.getPosterUrl());
+        book.setReleaseDate(entity.getReleaseDate());
+        book.setType(entity.getType());
+        book.setCountry(entity.getCountry());
+        book.setDescription(entity.getDescription());
         return book;
     }
      public static UserDTO userEnitytoDTO(User entity) {
