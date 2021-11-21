@@ -240,17 +240,6 @@ public class DisplayBook extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        HomePage homePage;
-        try {
-            homePage = new HomePage(accountInfo);
-            homePage.setVisible(true);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(DisplayBook.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DisplayBook.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-            Logger.getLogger(DisplayBook.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

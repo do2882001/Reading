@@ -152,24 +152,38 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         Query query = em.createQuery("SELECT l FROM Listfavorite l WHERE l.bookId = :bookId");
         query.setParameter("bookId", bdto.getBookId());
         java.util.List<Listfavorite> favorites = query.getResultList();
-        boolean flag = false;
+        boolean flag = true;
         for (Listfavorite l : favorites) {
-            if (l== null || l.getUserId() != userId) {
-                Listfavorite listfavorite = new Listfavorite();
-                listfavorite.setBookId(bdto.getBookId());
-                listfavorite.setUserId(userId);
-                ListfavoriteJpaController ljc = new ListfavoriteJpaController(emf);
-                ljc.create(listfavorite);
-                flag = true;
+            if (l.getBookId()==bdto.getBookId()) {
+                flag = false;
                 break;
             }
+        }
+        if (flag==true) {
+            Listfavorite listfavorite = new Listfavorite();
+            listfavorite.setBookId(bdto.getBookId());
+            listfavorite.setUserId(userId);
+            ListfavoriteJpaController ljc = new ListfavoriteJpaController(emf);
+            ljc.create(listfavorite); 
         }
         return flag;
     }
 
     @Override
-    public void removeBookFromListFavorite() throws RemoteException {
+    public void removeBookFromListFavorite(int bookId , int userId) throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+         
+        Query query = em.createQuery("SELECT l FROM Listfavorite l WHERE l.userId = :userId AND l.bookId = :bookid");
+        query.setParameter("userId", userId);
+        query.setParameter("bookid", bookId);
         
+        Listfavorite listfavorite = (Listfavorite) query.getSingleResult();
+        ListfavoriteJpaController listfavoriteJpaController = new ListfavoriteJpaController(emf);
+        try {
+            listfavoriteJpaController.destroy(listfavorite.getDescription());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -235,7 +249,7 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         for (Listfavorite l : favorites) {
             System.out.println("Liss" + l.getBookId());
             
-            Query query1 = em.createQuery("SELECT b FROM Book b WHERE b.bookId = :BookId");
+            Query query1 = em.createQuery("SELECT b FROM Book b WHERE b.bookId = :BookId ");
             query1.setParameter("BookId", l.getBookId());
             Book b = (Book) query1.getSingleResult();
             
@@ -393,5 +407,20 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
             Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    @Override
+    public List findCategory(int categoryName) throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT b FROM Book b WHERE b.categoryId = :categoryId");
+        query.setParameter("categoryId", categoryName);
+        List<Book> list = query.getResultList();
+        List<BookDTO> resultList = new ArrayList();
+        for (Book b : list) {
+            MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+            BookDTO bdto = mappingDTOtoEntity.bookEnitytoDTO(b);
+            resultList.add(bdto);
+        }
+        return resultList;
     }
 }

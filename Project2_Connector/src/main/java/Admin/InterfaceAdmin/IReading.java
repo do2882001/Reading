@@ -33,7 +33,7 @@ public interface IReading extends Remote {
     boolean addNewbook(BookDTO dTO) throws RemoteException;
     boolean addBookToListFavorite(BookDTO bdto, int userId)throws RemoteException;
     
-    void removeBookFromListFavorite()throws RemoteException;
+    void removeBookFromListFavorite(int BookId, int userId)throws RemoteException;
     java.util.List loadListFavorite(int userId)throws RemoteException;
     
     List<FeedbackDTO> historyFeedback(int user)throws RemoteException;
@@ -48,4 +48,6 @@ public interface IReading extends Remote {
     List loadListBook() throws RemoteException;
     boolean deleteBook(BookDTO bdto) throws RemoteException;
     boolean updateBook(BookDTO bdto) throws RemoteException;
+
+    public List findCategory(int categoryId)throws RemoteException;
 }
