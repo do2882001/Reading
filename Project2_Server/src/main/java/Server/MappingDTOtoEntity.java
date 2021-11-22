@@ -12,7 +12,6 @@ import Model.DTO.UserDTO;
 import SQL.JPA.Book;
 import SQL.JPA.Feedback;
 import SQL.JPA.User;
-import java.sql.Date;
 
 /**
  *
@@ -26,6 +25,7 @@ public class MappingDTOtoEntity {
             return null;
         }
         Book book = new Book();
+        book.setBookId(dTO.getBookId());
         book.setAuthorId(dTO.getAuthorId());
         book.setBookName(dTO.getBookName());
         book.setBookUrl(dTO.getBookUrl());
@@ -100,10 +100,11 @@ public class MappingDTOtoEntity {
             return null;
         }
         Feedback fb = new Feedback();
-        //u.setAddress(entity.getAddress());
+        fb.setFeedBackId(entity.getFeedBackId());
         fb.setUserId(entity.getUserId());
         fb.setContent(entity.getContent());
         fb.setDescription(entity.getDescription());
+        fb.setFeedBackDate(entity.getFeedBackDate());
         return fb;
     }
      

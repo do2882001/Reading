@@ -40,4 +40,12 @@ public interface IReading extends Remote {
     BookDTO searchBookDTO(String bookName)throws RemoteException;
     
     void changePassWord(int UserId, String PassWord)throws RemoteException;
+    
+    List<FeedbackDTO> LoadAlreadyreplied()throws RemoteException;
+    List<FeedbackDTO> LoadReplyList()throws RemoteException;
+
+    public void replyFeedback(FeedbackDTO fdto)throws RemoteException;
+    List loadListBook() throws RemoteException;
+    boolean deleteBook(BookDTO bdto) throws RemoteException;
+    boolean updateBook(BookDTO bdto) throws RemoteException;
 }

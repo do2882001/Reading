@@ -18,7 +18,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
-import Model.SQL.BookControllerSQL;
 import SQL.BookJpaController;
 import SQL.FeedbackJpaController;
 import SQL.JPA.Author;
@@ -27,6 +26,7 @@ import SQL.JPA.Feedback;
 import SQL.JPA.Listfavorite;
 import SQL.JPA.User;
 import SQL.ListfavoriteJpaController;
+import SQL.exceptions.NonexistentEntityException;
 import com.sun.org.apache.bcel.internal.generic.FALOAD;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -83,18 +83,7 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         }else return false;
     }
 
-    public BookDTO editbook(BookDTO dTO) throws RemoteException// add thanh cong tra ve bookdto, that bai tra ve null
-    {
-//        try {
-//            BookJpaController bjc = new BookJpaController(emf);
-//            Book book = MappingDTOtoEntity.bookDTOtoEntity(dTO);
-//            Book b = bjc.edit(book);
-//            BookDTO bdto = MappingDTOtoEntity.bookEnitytoDTO(b);
-//            //gọi JPA
-//            return bdto;
-//        } catch (Exception ex) {
-//            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+    public BookDTO editbook(BookDTO dTO) throws RemoteException{
         return null;
     }
 
@@ -258,6 +247,7 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
             MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
             bdto = mappingDTOtoEntity.bookEnitytoDTO(b);
             bdto.setAuthorName(a.getAuthorName());
+            System.out.println(bdto.getAuthorName());
             
             
             list.add(bdto);
@@ -278,6 +268,11 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
             b = (Book) query.getSingleResult();
             MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
             BookDTO bookdto = mappingDTOtoEntity.bookEnitytoDTO(b);
+            
+            Query query2 = em.createQuery("SELECT a FROM Author a WHERE a.authorId = :authorId");
+            query2.setParameter("authorId", b.getAuthorId());
+            Author a = (Author) query2.getSingleResult();
+            bookdto.setAuthorName(a.getAuthorName());
             return bookdto;
         }else return null;
     }
@@ -297,5 +292,106 @@ public class API_Controller extends UnicastRemoteObject implements IReading {
         } catch (Exception ex) {
             Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public List<FeedbackDTO> LoadAlreadyreplied() throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT f FROM Feedback f WHERE f.description IS NOT NULL");
+        java.util.List<Feedback> listhistoryFeedback = query.getResultList();
+        
+        java.util.List<FeedbackDTO> listReplied = new ArrayList();
+        
+        for (Feedback entity : listhistoryFeedback) {
+            FeedbackDTO fbDTO= new FeedbackDTO();
+            fbDTO.setFeedBackDate(entity.getFeedBackDate());
+            fbDTO.setDescription(entity.getDescription());
+            fbDTO.setContent(entity.getContent());
+            fbDTO.setUserId(entity.getUserId());
+            fbDTO.setFeedBackId(entity.getFeedBackId());
+            listReplied.add(fbDTO);
+        }
+        return listReplied;
+    }
+
+    @Override
+    public List<FeedbackDTO> LoadReplyList() throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT f FROM Feedback f WHERE f.description IS NULL");
+        java.util.List<Feedback> listhistoryFeedback = query.getResultList();
+        
+        java.util.List<FeedbackDTO> listReplied = new ArrayList();
+        
+        for (Feedback entity : listhistoryFeedback) {
+            FeedbackDTO fbDTO= new FeedbackDTO();
+            fbDTO.setFeedBackDate(entity.getFeedBackDate());
+            fbDTO.setDescription(entity.getDescription());
+            fbDTO.setContent(entity.getContent());
+            fbDTO.setUserId(entity.getUserId());
+            fbDTO.setFeedBackId(entity.getFeedBackId());
+            listReplied.add(fbDTO);
+        }
+        return listReplied;
+    }
+
+    @Override
+    public void replyFeedback(FeedbackDTO fdto) throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+        Feedback feedback = mappingDTOtoEntity.feedbackDTOtoFeedback(fdto);
+        FeedbackJpaController pController = new FeedbackJpaController(emf);
+        try {
+            System.out.println("Rep "+feedback.getDescription());
+            pController.edit(feedback);
+        } catch (Exception ex) {
+            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    @Override
+    public List loadListBook() throws RemoteException {
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createQuery("SELECT b FROM Book b");
+        List<Book> sqlBookList = query.getResultList();
+        List<BookDTO> dtoBookList = new ArrayList<>();
+        for (Book b : sqlBookList) {
+           BookDTO bdto = new BookDTO();
+           MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+           bdto = mappingDTOtoEntity.bookEnitytoDTO(b);
+           dtoBookList.add(bdto);
+        }
+        return dtoBookList;
+    }
+
+    @Override
+    public boolean updateBook(BookDTO bdto) throws RemoteException {
+        try {
+            BookJpaController bjc = new BookJpaController(emf);
+            MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+            Book b = mappingDTOtoEntity.bookDTOtoEntity(bdto);
+            
+            bjc.edit(b);
+            
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteBook(BookDTO bdto) throws RemoteException {
+        try {
+            BookJpaController bjc = new BookJpaController(emf);
+            MappingDTOtoEntity mappingDTOtoEntity = new MappingDTOtoEntity();
+            Book b = mappingDTOtoEntity.bookDTOtoEntity(bdto);
+            
+            bjc.destroy(b.getBookId());
+            return true;
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(API_Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }

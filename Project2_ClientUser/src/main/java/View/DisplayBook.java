@@ -7,25 +7,20 @@ package View;
 
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.BookDTO;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import static View.HomePage.accountInfo;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.sql.Blob;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import Info.AccountInfo;
 import org.icepdf.ri.common.ComponentKeyBinding;
 import org.icepdf.ri.common.SwingController;
 import org.icepdf.ri.common.SwingViewBuilder;
@@ -38,10 +33,12 @@ public class DisplayBook extends javax.swing.JFrame {
     BookDTO b;
     IReading adminrIReadingeading;
     int userid;
+    static AccountInfo accountInfo;
     /**
      * Creates new form Book
      */
-    public DisplayBook(BookDTO bdto, int UserId) throws NotBoundException, MalformedURLException, RemoteException {
+    public DisplayBook(BookDTO bdto, int UserId,AccountInfo acc) throws NotBoundException, MalformedURLException, RemoteException {
+        accountInfo = acc;
         b= bdto;
         userid =UserId;
         initComponents();
@@ -57,6 +54,8 @@ public class DisplayBook extends javax.swing.JFrame {
         lbPoster.setIcon(icon);
         lbPoster.setSize(20, 20);
         txtBookName.setText(b.getBookName());
+        
+        System.out.println(b.getAuthorName());
         txtAuthor.setText(b.getAuthorName());
         txtYear.setText(b.getReleaseDate());
         txtType.setText(b.getType());
@@ -96,20 +95,29 @@ public class DisplayBook extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(51, 51, 51));
+
+        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 
         lbPoster.setText("Poster");
 
         jLabel2.setText("Name:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         txtBookName.setText("txtBookname");
+        txtBookName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel4.setText("Author:");
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         txtAuthor.setText("txtAuthor");
+        txtAuthor.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel6.setText("Since:");
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         txtYear.setText("txtYear");
+        txtYear.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jButton1.setText("Add To ListFavorite");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -126,8 +134,10 @@ public class DisplayBook extends javax.swing.JFrame {
         });
 
         jLabel1.setText("Type:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         txtType.setText("txtType");
+        txtType.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -204,7 +214,7 @@ public class DisplayBook extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -230,6 +240,17 @@ public class DisplayBook extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
+        HomePage homePage;
+        try {
+            homePage = new HomePage(accountInfo);
+            homePage.setVisible(true);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(DisplayBook.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(DisplayBook.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DisplayBook.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
