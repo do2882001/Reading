@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Info;
+package model;
 
 import Model.DTO.UserDTO;
 import java.util.Date;

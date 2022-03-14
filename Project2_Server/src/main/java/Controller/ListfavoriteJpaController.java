@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQL;
+package Controller;
 
-import SQL.JPA.Author;
+import Model.Listfavorite;
 import SQL.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -20,9 +20,9 @@ import javax.persistence.criteria.Root;
  *
  * @author Do_Do
  */
-public class AuthorJpaController implements Serializable {
+public class ListfavoriteJpaController implements Serializable {
 
-    public AuthorJpaController(EntityManagerFactory emf) {
+    public ListfavoriteJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -31,12 +31,12 @@ public class AuthorJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Author author) {
+    public void create(Listfavorite listfavorite) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(author);
+            em.persist(listfavorite);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -45,19 +45,19 @@ public class AuthorJpaController implements Serializable {
         }
     }
 
-    public void edit(Author author) throws NonexistentEntityException, Exception {
+    public void edit(Listfavorite listfavorite) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            author = em.merge(author);
+            listfavorite = em.merge(listfavorite);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = author.getAuthorId();
-                if (findAuthor(id) == null) {
-                    throw new NonexistentEntityException("The author with id " + id + " no longer exists.");
+                Integer id = listfavorite.getDescription();
+                if (findListfavorite(id) == null) {
+                    throw new NonexistentEntityException("The listfavorite with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -73,14 +73,14 @@ public class AuthorJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Author author;
+            Listfavorite listfavorite;
             try {
-                author = em.getReference(Author.class, id);
-                author.getAuthorId();
+                listfavorite = em.getReference(Listfavorite.class, id);
+                listfavorite.getDescription();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The author with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The listfavorite with id " + id + " no longer exists.", enfe);
             }
-            em.remove(author);
+            em.remove(listfavorite);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -89,19 +89,19 @@ public class AuthorJpaController implements Serializable {
         }
     }
 
-    public List<Author> findAuthorEntities() {
-        return findAuthorEntities(true, -1, -1);
+    public List<Listfavorite> findListfavoriteEntities() {
+        return findListfavoriteEntities(true, -1, -1);
     }
 
-    public List<Author> findAuthorEntities(int maxResults, int firstResult) {
-        return findAuthorEntities(false, maxResults, firstResult);
+    public List<Listfavorite> findListfavoriteEntities(int maxResults, int firstResult) {
+        return findListfavoriteEntities(false, maxResults, firstResult);
     }
 
-    private List<Author> findAuthorEntities(boolean all, int maxResults, int firstResult) {
+    private List<Listfavorite> findListfavoriteEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Author.class));
+            cq.select(cq.from(Listfavorite.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -113,20 +113,20 @@ public class AuthorJpaController implements Serializable {
         }
     }
 
-    public Author findAuthor(Integer id) {
+    public Listfavorite findListfavorite(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Author.class, id);
+            return em.find(Listfavorite.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getAuthorCount() {
+    public int getListfavoriteCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Author> rt = cq.from(Author.class);
+            Root<Listfavorite> rt = cq.from(Listfavorite.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

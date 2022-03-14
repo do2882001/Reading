@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQL;
+package Controller;
 
-import SQL.JPA.Listfavorite;
+import Model.Feedback;
 import SQL.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -20,23 +20,27 @@ import javax.persistence.criteria.Root;
  *
  * @author Do_Do
  */
-public class ListfavoriteJpaController implements Serializable {
-
-    public ListfavoriteJpaController(EntityManagerFactory emf) {
+public class FeedbackJpaController implements Serializable {
+    public FeedbackJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
+
+    public FeedbackJpaController() {
+        
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Listfavorite listfavorite) {
+    public void create(Feedback feedback) {
+        //EntityManager em = emf.createEntityManager();
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(listfavorite);
+            em.persist(feedback);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -45,19 +49,19 @@ public class ListfavoriteJpaController implements Serializable {
         }
     }
 
-    public void edit(Listfavorite listfavorite) throws NonexistentEntityException, Exception {
+    public void edit(Feedback feedback) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            listfavorite = em.merge(listfavorite);
+            feedback = em.merge(feedback);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = listfavorite.getDescription();
-                if (findListfavorite(id) == null) {
-                    throw new NonexistentEntityException("The listfavorite with id " + id + " no longer exists.");
+                Integer id = feedback.getFeedBackId();
+                if (findFeedback(id) == null) {
+                    throw new NonexistentEntityException("The feedback with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -73,14 +77,14 @@ public class ListfavoriteJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Listfavorite listfavorite;
+            Feedback feedback;
             try {
-                listfavorite = em.getReference(Listfavorite.class, id);
-                listfavorite.getDescription();
+                feedback = em.getReference(Feedback.class, id);
+                feedback.getFeedBackId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The listfavorite with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The feedback with id " + id + " no longer exists.", enfe);
             }
-            em.remove(listfavorite);
+            em.remove(feedback);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -89,19 +93,19 @@ public class ListfavoriteJpaController implements Serializable {
         }
     }
 
-    public List<Listfavorite> findListfavoriteEntities() {
-        return findListfavoriteEntities(true, -1, -1);
+    public List<Feedback> findFeedbackEntities() {
+        return findFeedbackEntities(true, -1, -1);
     }
 
-    public List<Listfavorite> findListfavoriteEntities(int maxResults, int firstResult) {
-        return findListfavoriteEntities(false, maxResults, firstResult);
+    public List<Feedback> findFeedbackEntities(int maxResults, int firstResult) {
+        return findFeedbackEntities(false, maxResults, firstResult);
     }
 
-    private List<Listfavorite> findListfavoriteEntities(boolean all, int maxResults, int firstResult) {
+    private List<Feedback> findFeedbackEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Listfavorite.class));
+            cq.select(cq.from(Feedback.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -113,20 +117,20 @@ public class ListfavoriteJpaController implements Serializable {
         }
     }
 
-    public Listfavorite findListfavorite(Integer id) {
+    public Feedback findFeedback(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Listfavorite.class, id);
+            return em.find(Feedback.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getListfavoriteCount() {
+    public int getFeedbackCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Listfavorite> rt = cq.from(Listfavorite.class);
+            Root<Feedback> rt = cq.from(Feedback.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

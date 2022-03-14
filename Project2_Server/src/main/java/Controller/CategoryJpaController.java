@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQL;
+package Controller;
 
-import SQL.JPA.Feedback;
+import Model.Category;
 import SQL.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -20,27 +20,27 @@ import javax.persistence.criteria.Root;
  *
  * @author Do_Do
  */
-public class FeedbackJpaController implements Serializable {
-    public FeedbackJpaController(EntityManagerFactory emf) {
+public class CategoryJpaController implements Serializable {
+
+    public CategoryJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
 
-    public FeedbackJpaController() {
-        
+    public CategoryJpaController() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Feedback feedback) {
-        //EntityManager em = emf.createEntityManager();
+    public void create(Category category) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(feedback);
+            em.persist(category);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -49,19 +49,19 @@ public class FeedbackJpaController implements Serializable {
         }
     }
 
-    public void edit(Feedback feedback) throws NonexistentEntityException, Exception {
+    public void edit(Category category) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            feedback = em.merge(feedback);
+            category = em.merge(category);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = feedback.getFeedBackId();
-                if (findFeedback(id) == null) {
-                    throw new NonexistentEntityException("The feedback with id " + id + " no longer exists.");
+                Integer id = category.getCategoryId();
+                if (findCategory(id) == null) {
+                    throw new NonexistentEntityException("The category with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -77,14 +77,14 @@ public class FeedbackJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Feedback feedback;
+            Category category;
             try {
-                feedback = em.getReference(Feedback.class, id);
-                feedback.getFeedBackId();
+                category = em.getReference(Category.class, id);
+                category.getCategoryId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The feedback with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The category with id " + id + " no longer exists.", enfe);
             }
-            em.remove(feedback);
+            em.remove(category);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -93,19 +93,19 @@ public class FeedbackJpaController implements Serializable {
         }
     }
 
-    public List<Feedback> findFeedbackEntities() {
-        return findFeedbackEntities(true, -1, -1);
+    public List<Category> findCategoryEntities() {
+        return findCategoryEntities(true, -1, -1);
     }
 
-    public List<Feedback> findFeedbackEntities(int maxResults, int firstResult) {
-        return findFeedbackEntities(false, maxResults, firstResult);
+    public List<Category> findCategoryEntities(int maxResults, int firstResult) {
+        return findCategoryEntities(false, maxResults, firstResult);
     }
 
-    private List<Feedback> findFeedbackEntities(boolean all, int maxResults, int firstResult) {
+    private List<Category> findCategoryEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Feedback.class));
+            cq.select(cq.from(Category.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -117,20 +117,20 @@ public class FeedbackJpaController implements Serializable {
         }
     }
 
-    public Feedback findFeedback(Integer id) {
+    public Category findCategory(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Feedback.class, id);
+            return em.find(Category.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getFeedbackCount() {
+    public int getCategoryCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Feedback> rt = cq.from(Feedback.class);
+            Root<Category> rt = cq.from(Category.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

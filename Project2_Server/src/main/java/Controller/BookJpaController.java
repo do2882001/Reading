@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQL;
+package Controller;
 
-import SQL.JPA.Category;
+import Model.Book;
 import SQL.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -20,14 +20,13 @@ import javax.persistence.criteria.Root;
  *
  * @author Do_Do
  */
-public class CategoryJpaController implements Serializable {
-
-    public CategoryJpaController(EntityManagerFactory emf) {
+public class BookJpaController implements Serializable {
+private EntityManagerFactory emf = null;
+    public BookJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
-    public CategoryJpaController() {
+    public BookJpaController() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -35,12 +34,12 @@ public class CategoryJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Category category) {
+    public void create(Book book) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(category);
+            em.persist(book);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -49,19 +48,19 @@ public class CategoryJpaController implements Serializable {
         }
     }
 
-    public void edit(Category category) throws NonexistentEntityException, Exception {
+    public void edit(Book book) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            category = em.merge(category);
+            book = em.merge(book);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = category.getCategoryId();
-                if (findCategory(id) == null) {
-                    throw new NonexistentEntityException("The category with id " + id + " no longer exists.");
+                Integer id = book.getBookId();
+                if (findBook(id) == null) {
+                    throw new NonexistentEntityException("The book with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -77,14 +76,14 @@ public class CategoryJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Category category;
+            Book book;
             try {
-                category = em.getReference(Category.class, id);
-                category.getCategoryId();
+                book = em.getReference(Book.class, id);
+                book.getBookId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The category with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The book with id " + id + " no longer exists.", enfe);
             }
-            em.remove(category);
+            em.remove(book);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -93,19 +92,19 @@ public class CategoryJpaController implements Serializable {
         }
     }
 
-    public List<Category> findCategoryEntities() {
-        return findCategoryEntities(true, -1, -1);
+    public List<Book> findBookEntities() {
+        return findBookEntities(true, -1, -1);
     }
 
-    public List<Category> findCategoryEntities(int maxResults, int firstResult) {
-        return findCategoryEntities(false, maxResults, firstResult);
+    public List<Book> findBookEntities(int maxResults, int firstResult) {
+        return findBookEntities(false, maxResults, firstResult);
     }
 
-    private List<Category> findCategoryEntities(boolean all, int maxResults, int firstResult) {
+    private List<Book> findBookEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Category.class));
+            cq.select(cq.from(Book.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -117,20 +116,20 @@ public class CategoryJpaController implements Serializable {
         }
     }
 
-    public Category findCategory(Integer id) {
+    public Book findBook(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Category.class, id);
+            return em.find(Book.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getCategoryCount() {
+    public int getBookCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Category> rt = cq.from(Category.class);
+            Root<Book> rt = cq.from(Book.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

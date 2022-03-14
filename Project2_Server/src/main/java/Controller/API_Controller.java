@@ -5,10 +5,11 @@
  */
 package Server;
 
+import Model.MappingDTOtoEntity;
 import Model.DTO.*;
 
 
-import SQL.UserJpaController;
+import Controller.UserJpaController;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
@@ -18,16 +19,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
-import SQL.BookJpaController;
-import SQL.FeedbackJpaController;
-import SQL.JPA.Author;
-import SQL.JPA.Book;
-import SQL.JPA.Feedback;
-import SQL.JPA.Listfavorite;
-import SQL.JPA.User;
-import SQL.ListfavoriteJpaController;
+import Controller.BookJpaController;
+import Controller.BookJpaController;
+import Controller.FeedbackJpaController;
+import Controller.FeedbackJpaController;
+import Model.Author;
+import Model.Book;
+import Model.Feedback;
+import Model.Listfavorite;
+import Model.User;
+import Controller.ListfavoriteJpaController;
+import Controller.ListfavoriteJpaController;
+import Controller.UserJpaController;
 import SQL.exceptions.NonexistentEntityException;
-import com.sun.org.apache.bcel.internal.generic.FALOAD;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;

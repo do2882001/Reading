@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQL;
+package Controller;
 
 import Model.DTO.UserDTO;
-import SQL.JPA.User;
+import Model.User;
 import SQL.exceptions.NonexistentEntityException;
-import Server.MappingDTOtoEntity;
+import Model.MappingDTOtoEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SQL;
+package Controller;
 
-import SQL.JPA.Book;
+import Model.Author;
 import SQL.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -20,26 +20,23 @@ import javax.persistence.criteria.Root;
  *
  * @author Do_Do
  */
-public class BookJpaController implements Serializable {
-private EntityManagerFactory emf = null;
-    public BookJpaController(EntityManagerFactory emf) {
+public class AuthorJpaController implements Serializable {
+
+    public AuthorJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
-    public BookJpaController() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Book book) {
+    public void create(Author author) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(book);
+            em.persist(author);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -48,19 +45,19 @@ private EntityManagerFactory emf = null;
         }
     }
 
-    public void edit(Book book) throws NonexistentEntityException, Exception {
+    public void edit(Author author) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            book = em.merge(book);
+            author = em.merge(author);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = book.getBookId();
-                if (findBook(id) == null) {
-                    throw new NonexistentEntityException("The book with id " + id + " no longer exists.");
+                Integer id = author.getAuthorId();
+                if (findAuthor(id) == null) {
+                    throw new NonexistentEntityException("The author with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -76,14 +73,14 @@ private EntityManagerFactory emf = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Book book;
+            Author author;
             try {
-                book = em.getReference(Book.class, id);
-                book.getBookId();
+                author = em.getReference(Author.class, id);
+                author.getAuthorId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The book with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The author with id " + id + " no longer exists.", enfe);
             }
-            em.remove(book);
+            em.remove(author);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -92,19 +89,19 @@ private EntityManagerFactory emf = null;
         }
     }
 
-    public List<Book> findBookEntities() {
-        return findBookEntities(true, -1, -1);
+    public List<Author> findAuthorEntities() {
+        return findAuthorEntities(true, -1, -1);
     }
 
-    public List<Book> findBookEntities(int maxResults, int firstResult) {
-        return findBookEntities(false, maxResults, firstResult);
+    public List<Author> findAuthorEntities(int maxResults, int firstResult) {
+        return findAuthorEntities(false, maxResults, firstResult);
     }
 
-    private List<Book> findBookEntities(boolean all, int maxResults, int firstResult) {
+    private List<Author> findAuthorEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Book.class));
+            cq.select(cq.from(Author.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -116,20 +113,20 @@ private EntityManagerFactory emf = null;
         }
     }
 
-    public Book findBook(Integer id) {
+    public Author findAuthor(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Book.class, id);
+            return em.find(Author.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getBookCount() {
+    public int getAuthorCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Book> rt = cq.from(Book.class);
+            Root<Author> rt = cq.from(Author.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

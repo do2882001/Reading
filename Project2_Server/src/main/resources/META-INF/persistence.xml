@@ -2,12 +2,12 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ReadingJPA" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>SQL.JPA.Author</class>
-    <class>SQL.JPA.Book</class>
-    <class>SQL.JPA.Category</class>
-    <class>SQL.JPA.Feedback</class>
-    <class>SQL.JPA.User</class>
-    <class>SQL.JPA.Listfavorite</class>
+    <class>Controller.JPA.Listfavorite</class>
+    <class>Controller.JPA.Author</class>
+    <class>Controller.JPA.User</class>
+    <class>Controller.JPA.Feedback</class>
+    <class>Controller.JPA.Category</class>
+    <class>Controller.JPA.Book</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/readbook"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

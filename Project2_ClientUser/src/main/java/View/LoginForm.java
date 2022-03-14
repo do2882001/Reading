@@ -5,7 +5,7 @@
  */
 package View;
 
-import Info.AccountInfo;
+import model.AccountInfo;
 import Admin.InterfaceAdmin.IReading;
 import Model.DTO.UserDTO;
 
@@ -227,7 +227,7 @@ public class LoginForm extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -252,7 +252,6 @@ public class LoginForm extends javax.swing.JFrame {
             new LoginForm().setVisible(true);
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCreateUserAccount;
     private javax.swing.JButton btnForgetPassWord;

@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Server;
+package Model;
 
 
 import Model.DTO.BookDTO;
 import Model.DTO.FeedbackDTO;
 import Model.DTO.UserDTO;
-import SQL.JPA.Book;
-import SQL.JPA.Feedback;
-import SQL.JPA.User;
+import Model.Book;
+import Model.Feedback;
+import Model.User;
 
 /**
  *
